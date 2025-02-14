@@ -1,5 +1,5 @@
 local scripts = {
-    [123456789] = "https://raw.githubusercontent.com/haxer19/hihihihi/main/game/anm.lua"
+    [14735849025] = "https://raw.githubusercontent.com/haxer19/hihihihi/main/game/anm.lua"
 }
 
 if scripts[game.PlaceId] then
