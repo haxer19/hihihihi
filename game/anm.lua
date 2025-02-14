@@ -85,7 +85,7 @@ local Tabs = {
     Mahito = Window:Tab({ Title = "Mahito", Icon = icon.mahito }),
     KJ = Window:Tab({ Title = "KJ", Icon = icon.kj }),
     Yuta = Window:Tab({ Title = "Yuta", Icon = icon.yuta }),
-    Other = Window:Tab({ Title = "Yuta", Icon = "users" }),
+    Other = Window:Tab({ Title = "Other", Icon = "users" }),
 }
 
 Window:SelectTab(1)
