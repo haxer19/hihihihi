@@ -1,0 +1,15 @@
+local games = { 
+    [14735849025] = "https://raw.githubusercontent.com/haxer19/hihihihi/main/game/anm.lua" 
+}
+local url = games[game.PlaceId] or game.Players.LocalPlayer:Kick("Game này không được hỗ trợ.")
+
+local success, script = pcall(game.HttpGet, game, url)
+success, script = success and script and pcall(loadstring, script)
+
+success and script() or game.Players.LocalPlayer:Kick("Xảy ra lỗi.")
+
+
+--[[
+đang cố gắng làm nhiều game hơn.
+cập nhất mới nhất: 14/2/25
+]]
