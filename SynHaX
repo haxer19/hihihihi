@@ -1,20 +1,10 @@
-game:GetService("StarterGui"):SetCore("SendNotification", {
-    Title = "SynHaX",
-    Text = "xác nhận để tiếp tục.",
-    Icon = "rbxassetid://74835846528618",
-    Button1 = "OK",
-    Callback = function(choice)
-        if choice == "OK" then
-            local sp_game = {
-                [14735849025] = loadstring(game:HttpGet("https://raw.githubusercontent.com/haxer19/hihihihi/main/game/anm.lua"))(),
-            }
-            
-            if not sp_game[game.PlaceId] then
-                game.Players.LocalPlayer:Kick("không hỗ trợ game này.")
-            end
-        end
-    end
-})
+local sp_game = {
+    [14735849025] = loadstring(game:HttpGet("https://raw.githubusercontent.com/haxer19/hihihihi/main/game/anm.lua"))(),
+}
+
+if not sp_game[game.PlaceId] then
+    game.Players.LocalPlayer:Kick("không hỗ trợ game này.")
+end
 
 --[[
 đang cố gắng làm nhiều game hơn.

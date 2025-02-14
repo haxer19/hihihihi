@@ -387,10 +387,17 @@ Tabs.Yuta:Toggle({
 })
 
 Tabs.Other:Section({ Title = "All in 1", TextXAlignment = "Center" })
-Tabs.Other:Button({
+Tabs.Other:Toggle({
     Title = "All Skill",
     Desc = "Máy yếu hạn chế spam !!",
-    Callback = function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/haxer19/hihihihi/main/game/anm_allskill"))()
+    Value = false,
+    Callback = function(value)
+        config.allskill = value 
+        if config.allskill then
+            while config.allskill do
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/haxer19/hihihihi/main/game/anm_allskill"))()
+                wait(1)
+            end
+        end
     end
 })
