@@ -1,13 +1,12 @@
-local games = { 
-    [14735849025] = "https://raw.githubusercontent.com/haxer19/hihihihi/main/game/anm.lua" 
+local scripts = {
+    [123456789] = "https://raw.githubusercontent.com/haxer19/hihihihi/main/game/anm.lua"
 }
-local url = games[game.PlaceId] or game.Players.LocalPlayer:Kick("Game này không được hỗ trợ.")
 
-local success, script = pcall(game.HttpGet, game, url)
-success, script = success and script and pcall(loadstring, script)
-
-success and script() or game.Players.LocalPlayer:Kick("Xảy ra lỗi.")
-
+if scripts[game.PlaceId] then
+    loadstring(game:HttpGet(scriptURL))()
+else
+    game:GetService("Players").LocalPlayer:Kick("không hỗ trợ game này.")
+end
 
 --[[
 đang cố gắng làm nhiều game hơn.
