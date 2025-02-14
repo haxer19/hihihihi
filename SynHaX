@@ -2,10 +2,11 @@ local scripts = {
     [14735849025] = "https://raw.githubusercontent.com/haxer19/hihihihi/main/game/anm.lua"
 }
 
-if scripts[game.PlaceId] then
-    loadstring(game:HttpGet(scriptURL))()
+local url = scripts[game.PlaceId]
+if url then
+    loadstring(game:HttpGet(url))()
 else
-    game:GetService("Players").LocalPlayer:Kick("không hỗ trợ game này.")
+    game.Players.LocalPlayer:Kick("Không hỗ trợ game này.")
 end
 
 --[[
