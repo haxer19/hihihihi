@@ -29,6 +29,7 @@ local config = {
     DropKick2 = false,
     Yutalove = false,
     Yutaytd = false,
+    Megumin = false,
     allskill = false,
 }
 
@@ -41,7 +42,7 @@ local icon = {
     kj = "rbxassetid://78252154683435",
     hakari = "rbxassetid://103960505289441",
     mahito = "rbxassetid://77341163529273",
-    megumi = "rbxassetid://119073986869850",
+    megumin = "rbxassetid://99267143286143",
     yuta = "rbxassetid://84831465183744",
 }
 
@@ -85,6 +86,7 @@ local Tabs = {
     Mahito = Window:Tab({ Title = "Mahito", Icon = icon.mahito }),
     KJ = Window:Tab({ Title = "KJ", Icon = icon.kj }),
     Yuta = Window:Tab({ Title = "Yuta", Icon = icon.yuta }),
+    Megumin = Window:Tab({ Title = "Megumin", Icon = icon.megumin }),
     Other = Window:Tab({ Title = "Other", Icon = "users" }),
 }
 
@@ -380,6 +382,22 @@ Tabs.Yuta:Toggle({
         if config.Yutaytd then
             while config.Yutaytd do
                 game:GetService("ReplicatedStorage").Yuta.ytd:FireServer()
+                wait(1)
+            end
+        end
+    end
+})
+
+Tabs.Megumin:Section({ Title = "Megumin", TextXAlignment = "Center" })
+Tabs.Megumin:Toggle({
+    Title = "Megumin Explosion",
+    Desc = " ",
+    Value = false,
+    Callback = function(value)
+        config.Megumin = value 
+        if config.Megumin then
+            while config.Megumin do
+                game:GetService("ReplicatedStorage").Megumin.Remote:FireServer()
                 wait(1)
             end
         end
