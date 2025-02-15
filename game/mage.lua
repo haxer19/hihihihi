@@ -40,6 +40,7 @@ local icon = {
 
 
 local username = game:GetService("Players").LocalPlayer.Name
+local WindUI = loadstring(game:HttpGet("https://tree-hub.vercel.app/api/UI/WindUI"))()
 
 local Window = WindUI:CreateWindow({
     Title = "Mage Battlegrounds | Username: " .. username, 
