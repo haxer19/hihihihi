@@ -42,10 +42,10 @@ local icon = {
 local username = game:GetService("Players").LocalPlayer.Name
 
 local Window = WindUI:CreateWindow({
-    Title = "AnM Battlegrounds | Username: " .. username, 
+    Title = "Mage Battlegrounds | Username: " .. username, 
     Icon = "rbxassetid://74835846528618", 
     Author = ".tienthanh", 
-    Folder = "SynHaX_AnM", 
+    Folder = "SynHaX_Mage", 
     Size = getopsize(), 
     Transparent = true,
     Theme = "Dark", 
