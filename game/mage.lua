@@ -28,6 +28,7 @@ local config = {
         Dismantle = false,
         Rush = false,
     },
+    MahitoDomainExpansion = false,
 }
 
 local icon = {
@@ -285,6 +286,22 @@ Tabs.Sukuna:Toggle({
         if config.SukunaSkills.Rush then
             while config.SukunaSkills.Rush do
                 game:GetService("ReplicatedStorage").sukuna.remotes.rush:FireServer()
+                wait(1)
+            end
+        end
+    end
+})
+
+Tabs.Mahito:Section({ Title = "Mahito", TextXAlignment = "Center" })
+Tabs.Mahito:Toggle({
+    Title = "Mahito Domain Expansion",
+    Desc = " ",
+    Value = false,
+    Callback = function(value)
+        config.MahitoDomainExpansion = value 
+        if config.MahitoDomainExpansion then
+            while config.MahitoDomainExpansion do
+                game:GetService("ReplicatedStorage").MahitoDomainExpansion.MahitoDomainEvent:FireServer()
                 wait(1)
             end
         end
