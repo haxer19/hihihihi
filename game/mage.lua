@@ -215,22 +215,6 @@ Tabs.Gojo:Toggle({
     end
 })
 
-Tabs.Hakari:Section({ Title = "Hakari", TextXAlignment = "Center" })
-Tabs.Hakari:Toggle({
-    Title = "Hakari Domain Expansion",
-    Desc = " ",
-    Value = false,
-    Callback = function(value)
-        config.Domainthing = value 
-        if config.Domainthing then
-            while config.Domainthing do
-                game:GetService("ReplicatedStorage").Domainthing:FireServer()
-                wait(1)
-            end
-        end
-    end
-})
-
 Tabs.Sukuna:Section({ Title = "Sukuna", TextXAlignment = "Center" })
 Tabs.Sukuna:Toggle({
     Title = "Sukuna Domain Expansion Variant 1",
@@ -301,6 +285,22 @@ Tabs.Sukuna:Toggle({
         if config.SukunaSkills.Rush then
             while config.SukunaSkills.Rush do
                 game:GetService("ReplicatedStorage").sukuna.remotes.rush:FireServer()
+                wait(1)
+            end
+        end
+    end
+})
+
+Tabs.Hakari:Section({ Title = "Hakari", TextXAlignment = "Center" })
+Tabs.Hakari:Toggle({
+    Title = "Hakari Domain Expansion",
+    Desc = " ",
+    Value = false,
+    Callback = function(value)
+        config.Domainthing = value 
+        if config.Domainthing then
+            while config.Domainthing do
+                game:GetService("ReplicatedStorage").Domainthing:FireServer()
                 wait(1)
             end
         end
