@@ -1,15 +1,27 @@
-local scripts = {
-    [14735849025] = "https://raw.githubusercontent.com/haxer19/hihihihi/main/game/anm.lua"
+local places = {
+    [14735849025] = {tn = "AnM Battlegrounds", url = "https://raw.githubusercontent.com/haxer19/hihihihi/main/game/anm.lua"}
 }
 
-local url = scripts[game.PlaceId]
-if url then
-    loadstring(game:HttpGet(url))()
-else
-    game.Players.LocalPlayer:Kick("Không hỗ trợ game này.")
+function loadScript(url)
+    local success, err = pcall(function()
+        loadstring(game:HttpGet(url, true))()
+    end)
+    if not success then
+        warn("Error: " .. err)
+        local gui = Instance.new("ScreenGui", game.Players.LocalPlayer:WaitForChild("PlayerGui"))
+        local label = Instance.new("TextLabel", gui)
+        label.Size = UDim2.new(0, 320, 0, 160)
+        label.Position = UDim2.new(0.5, -160, 0.5, -80)
+        label.BackgroundColor3, label.TextColor3 = Color3.fromRGB(30, 30, 30), Color3.fromRGB(255, 75, 75)
+        label.Font, label.TextSize, label.TextWrapped = Enum.Font.GothamBold, 20, true
+        label.Text = "SynHaX\nError: " .. err
+    end
 end
 
---[[
-đang cố gắng làm nhiều game hơn.
-cập nhất mới nhất: 14/2/25
-]]
+local placeg = places[game.PlaceId]
+if placeg then
+    print("Loading: " .. place.tn)
+    loadScript(place.url)
+else
+    game.Players.LocalPlayer:Kick("Unsupported Map")
+end
