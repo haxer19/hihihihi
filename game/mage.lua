@@ -73,7 +73,7 @@ WindUI.TransparencyValue = .1
 local Tabs = {
     Gojo = Window:Tab({ Title = "Gojo", Icon = icon.gojo }),
     Sukuna = Window:Tab({ Title = "Sukuna", Icon = icon.sukuna }),
-    Mahito = Window:Tab({ Title = "Sukuna", Icon = icon.mahito }),
+    Mahito = Window:Tab({ Title = "Mahito", Icon = icon.mahito }),
     Hakari = Window:Tab({ Title = "Hakari", Icon = icon.hakari }),
     Other = Window:Tab({ Title = "Other", Icon = "users" }),
 }
