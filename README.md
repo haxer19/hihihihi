@@ -1,6 +1,7 @@
 
 ## Danh Sách Map Hiện Có
 - AnM Battlegrounds
+- Mage Battlegrounds
 
 *Danh sách có thể cập nhật thêm trong tương lai!*
 ---
