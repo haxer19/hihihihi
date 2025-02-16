@@ -3,26 +3,121 @@ local places = {
     [16519296344] = {tn = "Mage Battlegrounds", url = "https://raw.githubusercontent.com/haxer19/hihihihi/main/game/mage.lua" },
 }
 
+local function createErrorGUI(errorMessage)
+    local player = game.Players.LocalPlayer
+    local playerGui = player:WaitForChild("PlayerGui")
+    local oldGui = playerGui:FindFirstChild("ErrorGUI")
+    if oldGui then
+        oldGui:Destroy()
+    end
+
+    local gui = Instance.new("ScreenGui")
+    gui.Name = "SynHaX"
+    gui.Parent = playerGui
+
+    local frame = Instance.new("Frame")
+    frame.Parent = gui
+    frame.Size = UDim2.new(0, 400, 0, 200)
+    frame.Position = UDim2.new(0.5, -200, 0.5, -100)
+    frame.BackgroundTransparency = 0.2
+    frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    frame.BorderSizePixel = 0
+
+    local uiCorner = Instance.new("UICorner")
+    uiCorner.CornerRadius = UDim.new(0, 10)
+    uiCorner.Parent = frame
+
+    local dragFrame = Instance.new("Frame")
+    dragFrame.Parent = frame
+    dragFrame.Size = UDim2.new(1, 0, 0, 30)
+    dragFrame.BackgroundTransparency = 1
+
+    local title = Instance.new("TextLabel")
+    title.Parent = dragFrame
+    title.Size = UDim2.new(1, -40, 1, 0)
+    title.Position = UDim2.new(0, 10, 0, 0)
+    title.BackgroundTransparency = 1
+    title.Font = Enum.Font.GothamBold
+    title.TextSize = 18
+    title.TextColor3 = Color3.fromRGB(255, 255, 255)
+    title.TextXAlignment = Enum.TextXAlignment.Left
+    title.Text = "⚠ Error Occurred"
+
+    local closeButton = Instance.new("TextButton")
+    closeButton.Parent = dragFrame
+    closeButton.Size = UDim2.new(0, 30, 0, 30)
+    closeButton.Position = UDim2.new(1, -40, 0, 0)
+    closeButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+    closeButton.Text = "close"
+    closeButton.Font = Enum.Font.GothamBold
+    closeButton.TextSize = 18
+    closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+
+    local closeCorner = Instance.new("UICorner")
+    closeCorner.CornerRadius = UDim.new(0, 6)
+    closeCorner.Parent = closeButton
+
+    closeButton.MouseButton1Click:Connect(function()
+        gui:Destroy()
+    end)
+
+    local errorLabel = Instance.new("TextLabel")
+    errorLabel.Parent = frame
+    errorLabel.Position = UDim2.new(0, 10, 0, 40)
+    errorLabel.Size = UDim2.new(1, -20, 1, -50)
+    errorLabel.BackgroundTransparency = 1
+    errorLabel.Font = Enum.Font.Gotham
+    errorLabel.TextSize = 16
+    errorLabel.TextWrapped = true
+    errorLabel.TextColor3 = Color3.fromRGB(255, 75, 75)
+    errorLabel.Text = "Error Details:\n" .. errorMessage
+
+    local textBounds = errorLabel.TextBounds
+    local newHeight = math.clamp(textBounds.Y + 60, 150, 400)
+    frame.Size = UDim2.new(0, 400, 0, newHeight)
+
+    local dragging, dragInput, dragStart, startPos
+
+    local function update(input)
+        local delta = input.Position - dragStart
+        frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+
+    dragFrame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging = true
+            dragStart = input.Position
+            startPos = frame.Position
+
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    dragging = false
+                end
+            end)
+        end
+    end)
+
+    dragFrame.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+            dragInput = input
+        end
+    end)
+
+    game:GetService("UserInputService").InputChanged:Connect(function(input)
+        if input == dragInput and dragging then
+            update(input)
+        end
+    end)
+end
+
 function loadScript(url)
     local success, err = pcall(function()
         loadstring(game:HttpGet(url, true))()
     end)
-    
+
     if not success then
         warn("Error: " .. err)
-        
-        local gui = Instance.new("ScreenGui")
-        gui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui") 
-
-        local label = Instance.new("TextLabel", gui)
-        label.Size = UDim2.new(0, 320, 0, 160)
-        label.Position = UDim2.new(0.5, -160, 0.5, -80)
-        label.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-        label.TextColor3 = Color3.fromRGB(255, 75, 75)
-        label.Font = Enum.Font.GothamBold
-        label.TextSize = 20
-        label.TextWrapped = true
-        label.Text = "SynHaX\nError: " .. err
+        createErrorGUI(err)
     end
 end
 
