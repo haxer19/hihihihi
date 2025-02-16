@@ -1,0 +1,42 @@
+local Players = game:GetService("Players")
+local VirtualUser = game:GetService("VirtualUser")
+local RunService = game:GetService("RunService")
+
+local player = Players.LocalPlayer
+
+local function AntiAFK()
+    player.Idled:Connect(function(time)
+        if time > 60 then  
+            VirtualUser:CaptureController()
+            VirtualUser:ClickButton2(Vector2.new())
+        end
+    end)
+end
+
+local function rdmov()
+    while true do
+        wait(math.random(30, 60)) 
+        if player.Character and player.Character:FindFirstChild("Humanoid") then
+            local humanoid = player.Character:FindFirstChild("Humanoid")
+            local rootPart = player.Character:FindFirstChild("HumanoidRootPart")
+
+            if rootPart then
+                local randomOffset = Vector3.new(math.random(-2, 2), 0, math.random(-2, 2))
+                rootPart.CFrame = rootPart.CFrame * CFrame.new(randomOffset)
+                humanoid:Move(Vector3.new(math.random(-1, 1), 0, math.random(-1, 1)), true)
+            end
+        end
+    end
+end
+
+AntiAFK()
+spawn(rdmov)
+
+local players = game:GetService("Players")
+game:GetService("StarterGui"):SetCore("SendNotification", {
+    Title = "SynHaX | Anti AFK";
+    Text = "Welcome, " .. players.LocalPlayer.DisplayName;
+    Icon = "rbxthumb://type=AvatarHeadShot&id=" .. players.LocalPlayer.UserId .. "&w=180&h=180";
+    Duration = 5
+})
+print("✅ Anti-AFK script đã hoạt động!")
