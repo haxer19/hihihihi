@@ -1,0 +1,36 @@
+local IzukLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/haxer19/hihihihi/main/tdz/IzukLib.lua"))()
+
+local window = IzukLib:CreateWindow({ Title = "TienThanh" })
+
+local openBtn = IzukLib:CustomOpenButton({ Text = "Toggle" })
+
+IzukLib:DefaultNotification("TDZ", 5)
+
+local tab1 = IzukLib:CreateTab("Tab 1")
+local btn = IzukLib:CreateButton(tab1, {
+    Text = "Nhấn tôi",
+    Callback = function() print("Button pressed!") end
+})
+
+local dropdown = IzukLib:CreateDropdown(tab1, {
+    Title = "Chọn mục",
+    Items = {"Item 1", "Item 2", "Item 3"}
+})
+IzukLib:EditDropdown(dropdown, "SetTitle", "Mục đã chọn")
+
+local inputField = IzukLib:CreateInput(tab1, {
+    Placeholder = "Nhập nội dung",
+    Callback = function(text) print("Input:", text) end
+})
+
+local section = IzukLib:CreateSection(tab1, {
+    Title = "Phần mục",
+})
+
+local toggle = IzukLib:CreateToggle(tab1, {
+    Title = "Tùy chọn",
+    Value = false,
+    Callback = function(val) print("Toggle:", val) end
+})
+IzukLib:EditToggle(toggle, "SetTitle", "Tùy chọn mới")
+

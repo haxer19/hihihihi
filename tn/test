@@ -1,0 +1,129 @@
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local TrackedRemotes = {}
+
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Parent = game.CoreGui
+
+local Frame = Instance.new("Frame")
+Frame.Size = UDim2.new(0, 500, 0, 400)
+Frame.Position = UDim2.new(0.5, -250, 0.5, -200)
+Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+Frame.BorderSizePixel = 0
+Frame.Active = true
+Frame.Draggable = true
+Frame.Parent = ScreenGui
+
+local Title = Instance.new("TextLabel")
+Title.Size = UDim2.new(1, 0, 0, 30)
+Title.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+Title.Text = "Remote Tracker"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.Font = Enum.Font.Code
+Title.TextSize = 18
+Title.Parent = Frame
+
+local CloseButton = Instance.new("TextButton")
+CloseButton.Size = UDim2.new(0, 30, 0, 30)
+CloseButton.Position = UDim2.new(1, -30, 0, 0)
+CloseButton.Text = "X"
+CloseButton.TextColor3 = Color3.fromRGB(255, 0, 0)
+CloseButton.Parent = Frame
+CloseButton.MouseButton1Click:Connect(function()
+    ScreenGui.Enabled = false
+end)
+
+local TabFrame = Instance.new("ScrollingFrame")
+TabFrame.Size = UDim2.new(0, 150, 1, -30)
+TabFrame.Position = UDim2.new(0, 0, 0, 30)
+TabFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+TabFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+TabFrame.Parent = Frame
+
+local LogFrame = Instance.new("ScrollingFrame")
+LogFrame.Size = UDim2.new(1, -150, 1, -90)
+LogFrame.Position = UDim2.new(0, 150, 0, 30)
+LogFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+LogFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+LogFrame.Parent = Frame
+
+local function createTab(remoteName, logs)
+    local TabButton = Instance.new("TextButton")
+    TabButton.Size = UDim2.new(1, 0, 0, 30)
+    TabButton.Text = remoteName
+    TabButton.TextColor3 = Color3.fromRGB(200, 200, 200)
+    TabButton.Parent = TabFrame
+    
+    TabButton.MouseButton1Click:Connect(function()
+        for _, child in pairs(LogFrame:GetChildren()) do
+            if child:IsA("TextLabel") then
+                child:Destroy()
+            end
+        end
+        
+        for _, log in pairs(logs) do
+            local LogLabel = Instance.new("TextLabel")
+            LogLabel.Size = UDim2.new(1, 0, 0, 20)
+            LogLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
+            LogLabel.Text = log
+            LogLabel.Parent = LogFrame
+        end
+    end)
+end
+
+local function hookRemote(remote)
+    if not TrackedRemotes[remote] then
+        TrackedRemotes[remote] = {}
+        createTab(remote.Name, TrackedRemotes[remote])
+        
+        if remote:IsA("RemoteEvent") then
+            remote.OnClientEvent:Connect(function(...)
+                local args = table.concat({...}, ", ")
+                table.insert(TrackedRemotes[remote], "[RemoteEvent] " .. remote.Name .. " - Args: " .. args)
+            end)
+        elseif remote:IsA("RemoteFunction") then
+            local oldInvoke = remote.InvokeServer
+            function remote:InvokeServer(...)
+                local args = table.concat({...}, ", ")
+                table.insert(TrackedRemotes[self], "[RemoteFunction] " .. self.Name .. " - Args: " .. args)
+                return oldInvoke(self, ...)
+            end
+        end
+    end
+end
+
+for _, remote in pairs(ReplicatedStorage:GetDescendants()) do
+    if remote:IsA("RemoteEvent") or remote:IsA("RemoteFunction") then
+        hookRemote(remote)
+    end
+end
+
+ReplicatedStorage.DescendantAdded:Connect(function(remote)
+    if remote:IsA("RemoteEvent") or remote:IsA("RemoteFunction") then
+        hookRemote(remote)
+    end
+end)
+
+local CopyButton = Instance.new("TextButton")
+CopyButton.Size = UDim2.new(0, 100, 0, 30)
+CopyButton.Position = UDim2.new(0, 150, 1, -30)
+CopyButton.Text = "Copy Logs"
+CopyButton.TextColor3 = Color3.fromRGB(0, 255, 0)
+CopyButton.Parent = Frame
+CopyButton.MouseButton1Click:Connect(function()
+    setclipboard(table.concat(TrackedRemotes, "\n"))
+end)
+
+local ClearButton = Instance.new("TextButton")
+ClearButton.Size = UDim2.new(0, 100, 0, 30)
+ClearButton.Position = UDim2.new(0, 260, 1, -30)
+ClearButton.Text = "Clear Logs"
+ClearButton.TextColor3 = Color3.fromRGB(255, 165, 0)
+ClearButton.Parent = Frame
+ClearButton.MouseButton1Click:Connect(function()
+    for _, child in pairs(LogFrame:GetChildren()) do
+        if child:IsA("TextLabel") then
+            child:Destroy()
+        end
+    end
+    TrackedRemotes = {}
+end)
