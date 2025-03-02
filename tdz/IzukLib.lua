@@ -76,7 +76,7 @@ function IzukLib:CreateTab(tabName)
     tab.Size = UDim2.new(0, 380, 0, 260)
     tab.Position = UDim2.new(0, 10, 0, 40)
     tab.BackgroundColor3 = IzukLib.Themes.Default.BackgroundColor
-    tab.Visible = false  -- Hiển thị tab khi cần
+    tab.Visible = true
     tab.Parent = self.Window
 
     if not self.Tabs then
