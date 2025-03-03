@@ -44,12 +44,44 @@ end
 
 function IzukLib:CreateWindow(params)
     params = params or {}
+    local title = params.Title or "Window"
+    local windowWidth = params.Width or 350
+    local windowHeight = params.Height or 250
+
     local window = Instance.new("Frame")
-    window.Name = params.Title or "Window"
-    window.Size = UDim2.new(0, 400, 0, 300)
-    window.Position = params.Position or UDim2.new(0.5, -200, 0.5, -150)
+    window.Name = title
+    window.Size = UDim2.new(0, windowWidth, 0, windowHeight)
+    window.Position = params.Position or UDim2.new(0.5, -windowWidth/2, 0.5, -windowHeight/2)
     window.BackgroundColor3 = params.BackgroundColor or IzukLib.Themes.Default.BackgroundColor
     window.Parent = self.ScreenGui or self:LoadWindow()
+
+    local windowCorner = Instance.new("UICorner")
+    windowCorner.CornerRadius = UDim.new(0, 10)
+    windowCorner.Parent = window
+
+    local header = Instance.new("Frame")
+    header.Name = "Header"
+    header.Size = UDim2.new(1, 0, 0, 40)  
+    header.Position = UDim2.new(0, 0, 0, 0)
+    header.BackgroundColor3 = IzukLib.Themes.Default.AccentColor
+    header.BackgroundTransparency = 0.1
+    header.Parent = window
+
+    local headerCorner = Instance.new("UICorner")
+    headerCorner.CornerRadius = UDim.new(0, 10)
+    headerCorner.Parent = header
+
+    local titleLabel = Instance.new("TextLabel")
+    titleLabel.Name = "TitleLabel"
+    titleLabel.Size = UDim2.new(1, -20, 1, 0)
+    titleLabel.Position = UDim2.new(0, 10, 0, 0)
+    titleLabel.BackgroundTransparency = 1
+    titleLabel.Text = title
+    titleLabel.TextColor3 = IzukLib.Themes.Default.TextColor
+    titleLabel.Font = Enum.Font.GothamSemibold  
+    titleLabel.TextScaled = true
+    titleLabel.TextXAlignment = Enum.TextXAlignment.Left
+    titleLabel.Parent = header
 
     self:EnableDrag(window)
 
@@ -116,9 +148,9 @@ function IzukLib:DefaultNotification(options)
 
     local notif = Instance.new("Frame")
     notif.Name = "Notification"
-    notif.Size = UDim2.new(0, 320, 0, 80)
-    notif.AnchorPoint = Vector2.new(1, 0)
-    notif.Position = UDim2.new(1, 10, 0, 10)
+    notif.Size = UDim2.new(0, 280, 0, 70) 
+    notif.AnchorPoint = Vector2.new(1, 1)
+    notif.Position = UDim2.new(1, 10, 1, 10)
     notif.BackgroundColor3 = IzukLib.Themes.Default.AccentColor
     notif.BackgroundTransparency = 0.2
     notif.BorderSizePixel = 0
@@ -131,7 +163,7 @@ function IzukLib:DefaultNotification(options)
     if icon ~= "" then
         local iconLabel = Instance.new("ImageLabel")
         iconLabel.Name = "Icon"
-        iconLabel.Size = UDim2.new(0, 80, 0, 80)
+        iconLabel.Size = UDim2.new(0, 70, 0, 70)
         iconLabel.Position = UDim2.new(0, 0, 0, 0)
         iconLabel.Image = icon
         iconLabel.BackgroundTransparency = 1
@@ -140,8 +172,8 @@ function IzukLib:DefaultNotification(options)
 
     local titleLabel = Instance.new("TextLabel")
     titleLabel.Name = "TitleLabel"
-    titleLabel.Size = UDim2.new(0.65, 0, 0.4, 0)
-    titleLabel.Position = UDim2.new(0.35, 0, 0, 0)
+    titleLabel.Size = UDim2.new(0.7, 0, 0.4, 0)
+    titleLabel.Position = UDim2.new(0.3, 0, 0, 0)
     titleLabel.BackgroundTransparency = 1
     titleLabel.Text = title
     titleLabel.TextColor3 = IzukLib.Themes.Default.TextColor
@@ -151,8 +183,8 @@ function IzukLib:DefaultNotification(options)
 
     local contentLabel = Instance.new("TextLabel")
     contentLabel.Name = "ContentLabel"
-    contentLabel.Size = UDim2.new(0.65, 0, 0.6, 0)
-    contentLabel.Position = UDim2.new(0.35, 0, 0.4, 0)
+    contentLabel.Size = UDim2.new(0.7, 0, 0.6, 0)
+    contentLabel.Position = UDim2.new(0.3, 0, 0.4, 0)
     contentLabel.BackgroundTransparency = 1
     contentLabel.Text = text
     contentLabel.TextColor3 = IzukLib.Themes.Default.TextColor
@@ -161,13 +193,13 @@ function IzukLib:DefaultNotification(options)
     contentLabel.TextWrapped = true
     contentLabel.Parent = notif
 
-    local targetPosition = UDim2.new(1, -10, 0, 10)
+    local targetPosition = UDim2.new(1, -10, 1, -10)
     local tweenInfo = TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
     local tween = TweenService:Create(notif, tweenInfo, {Position = targetPosition})
     tween:Play()
 
     delay(duration, function()
-        local tweenOut = TweenService:Create(notif, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {Position = UDim2.new(1, 10, 0, 10)})
+        local tweenOut = TweenService:Create(notif, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {Position = UDim2.new(1, 10, 1, 10)})
         tweenOut:Play()
         tweenOut.Completed:Connect(function()
             notif:Destroy()
@@ -178,19 +210,66 @@ function IzukLib:DefaultNotification(options)
 end
 
 function IzukLib:CreateTab(tabName)
-    local tab = Instance.new("Frame")
-    tab.Name = tabName or "Tab"
-    tab.Size = UDim2.new(0, 380, 0, 260)
-    tab.Position = UDim2.new(0, 10, 0, 40)
-    tab.BackgroundColor3 = IzukLib.Themes.Default.BackgroundColor
-    tab.Visible = true
-    tab.Parent = self.Window
+    tabName = tabName or "Tab"
 
-    if not self.Tabs then
+    if not self.TabBar then
+        self.TabBar = Instance.new("Frame")
+        self.TabBar.Name = "TabBar"
+        self.TabBar.Size = UDim2.new(1, 0, 0, 40)  
+        self.TabBar.Position = UDim2.new(0, 0, 0, 40) 
+        self.TabBar.BackgroundTransparency = 1
+        self.TabBar.Parent = self.Window
+
+        local layout = Instance.new("UIListLayout")
+        layout.FillDirection = Enum.FillDirection.Horizontal
+        layout.SortOrder = Enum.SortOrder.LayoutOrder
+        layout.Padding = UDim.new(0, 5)
+        layout.Parent = self.TabBar
+
         self.Tabs = {}
+        self.TabButtons = {}
     end
-    table.insert(self.Tabs, tab)
-    return tab
+
+    local tabContent = Instance.new("Frame")
+    tabContent.Name = tabName .. "Content"
+    tabContent.Size = UDim2.new(1, -20, 1, -90)  
+    tabContent.Position = UDim2.new(0, 10, 0, 80)
+    tabContent.BackgroundTransparency = 1
+    tabContent.Visible = false  
+    tabContent.Parent = self.Window
+
+    table.insert(self.Tabs, tabContent)
+
+    local tabButton = Instance.new("TextButton")
+    tabButton.Name = tabName .. "Button"
+    tabButton.Size = UDim2.new(0, 100, 1, 0)  
+    tabButton.BackgroundColor3 = IzukLib.Themes.Default.AccentColor
+    tabButton.TextColor3 = IzukLib.Themes.Default.TextColor
+    tabButton.Font = Enum.Font.GothamSemibold
+    tabButton.TextScaled = true
+    tabButton.Text = tabName
+    tabButton.Parent = self.TabBar
+
+    table.insert(self.TabButtons, tabButton)
+
+    tabButton.MouseButton1Click:Connect(function()
+        for _, content in ipairs(self.Tabs) do
+            content.Visible = false
+        end
+        tabContent.Visible = true
+
+        for _, button in ipairs(self.TabButtons) do
+            button.BackgroundColor3 = IzukLib.Themes.Default.AccentColor
+        end
+        tabButton.BackgroundColor3 = IzukLib.Themes.Default.TextColor
+    end)
+
+    if #self.Tabs == 1 then
+        tabContent.Visible = true
+        tabButton.BackgroundColor3 = IzukLib.Themes.Default.TextColor
+    end
+
+    return tabContent
 end
 
 function IzukLib:CreateButton(tab, params)

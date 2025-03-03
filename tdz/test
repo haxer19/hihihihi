@@ -21,7 +21,7 @@ local dropdown = IzukLib:CreateDropdown(tab1, {
     Title = "Chọn mục",
     Items = {"Item 1", "Item 2", "Item 3"}
 })
---IzukLib:EditDropdown(dropdown, "SetTitle", "Mục đã chọn")
+IzukLib:EditDropdown(dropdown, "SetTitle", "Mục đã chọn")
 
 local inputField = IzukLib:CreateInput(tab1, {
     Placeholder = "Nhập nội dung",
@@ -37,5 +37,5 @@ local toggle = IzukLib:CreateToggle(tab1, {
     Value = false,
     Callback = function(val) print("Toggle:", val) end
 })
--- IzukLib:EditToggle(toggle, "SetTitle", "Tùy chọn mới")
+IzukLib:EditToggle(toggle, "SetTitle", "Tùy chọn mới")
 
