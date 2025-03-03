@@ -3,10 +3,35 @@ IzukLib.__index = IzukLib
 
 IzukLib.Themes = {
     Default = {
-        BackgroundColor = Color3.fromRGB(30, 30, 30),
-        AccentColor = Color3.fromRGB(60, 60, 60),
+        BackgroundColor = Color3.fromRGB(24, 15, 42),
+        AccentColor = Color3.fromRGB(100, 50, 160),   
+        TextColor = Color3.fromRGB(240, 240, 240)      
+    },    
+    White = {
+        BackgroundColor = Color3.fromRGB(255, 255, 255),
+        AccentColor = Color3.fromRGB(0, 0, 0),
+        TextColor = Color3.fromRGB(0, 0, 0)
+    },
+    Black = {
+        BackgroundColor = Color3.fromRGB(0, 0, 0),
+        AccentColor = Color3.fromRGB(255, 255, 255),
         TextColor = Color3.fromRGB(255, 255, 255)
     },
+    Professional = {
+        BackgroundColor = Color3.fromRGB(240, 240, 240),
+        AccentColor = Color3.fromRGB(0, 128, 0),
+        TextColor = Color3.fromRGB(0, 0, 0)
+    },
+    Gaming = {
+        BackgroundColor = Color3.fromRGB(25, 25, 25),
+        AccentColor = Color3.fromRGB(255, 0, 0),
+        TextColor = Color3.fromRGB(255, 255, 255)
+    },
+    Secret = {
+        BackgroundColor = Color3.fromRGB(0, 0, 0),
+        AccentColor = Color3.fromRGB(0, 0, 255),
+        TextColor = Color3.fromRGB(255, 255, 255)
+    }
 }
 
 function IzukLib:LoadWindow()
@@ -48,25 +73,107 @@ function IzukLib:CustomOpenButton(params)
             self.Window.Visible = not self.Window.Visible
         end
     end)
+
+    local UserInputService = game:GetService("UserInputService")
+    local dragging = false
+    local dragStart, startPos
+
+    button.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging = true
+            dragStart = input.Position
+            startPos = button.Position
+
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    dragging = false
+                end
+            end)
+        end
+    end)
+
+    button.InputChanged:Connect(function(input)
+        if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+            local delta = input.Position - dragStart
+            button.Position = UDim2.new(
+                startPos.X.Scale, startPos.X.Offset + delta.X,
+                startPos.Y.Scale, startPos.Y.Offset + delta.Y
+            )
+        end
+    end)
+
     return button
 end
 
-function IzukLib:DefaultNotification(message, duration)
-    duration = duration or 3
-    local notif = Instance.new("TextLabel")
+function IzukLib:DefaultNotification(options)
+    options = options or {}
+    local title = options.Title or "Notification"
+    local text = options.Text or "This is a notification."
+    local icon = options.Icon or ""
+    local duration = options.Duration or 5
+
+    local TweenService = game:GetService("TweenService")
+
+    local notif = Instance.new("Frame")
     notif.Name = "Notification"
-    notif.Size = UDim2.new(0, 300, 0, 50)
-    notif.Position = UDim2.new(0.5, -150, 0, 50)
-    notif.Text = message or "Notification"
+    notif.Size = UDim2.new(0, 320, 0, 80)
+    notif.AnchorPoint = Vector2.new(1, 0)
+    notif.Position = UDim2.new(1, 10, 0, 10)
     notif.BackgroundColor3 = IzukLib.Themes.Default.AccentColor
-    notif.TextColor3 = IzukLib.Themes.Default.TextColor
+    notif.BackgroundTransparency = 0.2
+    notif.BorderSizePixel = 0
     notif.Parent = self.ScreenGui or self:LoadWindow()
 
+    local uicorner = Instance.new("UICorner")
+    uicorner.CornerRadius = UDim.new(0, 8)
+    uicorner.Parent = notif
+
+    if icon ~= "" then
+        local iconLabel = Instance.new("ImageLabel")
+        iconLabel.Name = "Icon"
+        iconLabel.Size = UDim2.new(0, 80, 0, 80)
+        iconLabel.Position = UDim2.new(0, 0, 0, 0)
+        iconLabel.Image = icon
+        iconLabel.BackgroundTransparency = 1
+        iconLabel.Parent = notif
+    end
+
+    local titleLabel = Instance.new("TextLabel")
+    titleLabel.Name = "TitleLabel"
+    titleLabel.Size = UDim2.new(0.65, 0, 0.4, 0)
+    titleLabel.Position = UDim2.new(0.35, 0, 0, 0)
+    titleLabel.BackgroundTransparency = 1
+    titleLabel.Text = title
+    titleLabel.TextColor3 = IzukLib.Themes.Default.TextColor
+    titleLabel.TextScaled = true
+    titleLabel.Font = Enum.Font.GothamBold
+    titleLabel.Parent = notif
+
+    local contentLabel = Instance.new("TextLabel")
+    contentLabel.Name = "ContentLabel"
+    contentLabel.Size = UDim2.new(0.65, 0, 0.6, 0)
+    contentLabel.Position = UDim2.new(0.35, 0, 0.4, 0)
+    contentLabel.BackgroundTransparency = 1
+    contentLabel.Text = text
+    contentLabel.TextColor3 = IzukLib.Themes.Default.TextColor
+    contentLabel.TextScaled = true
+    contentLabel.Font = Enum.Font.Gotham
+    contentLabel.TextWrapped = true
+    contentLabel.Parent = notif
+
+    local targetPosition = UDim2.new(1, -10, 0, 10)
+    local tweenInfo = TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+    local tween = TweenService:Create(notif, tweenInfo, {Position = targetPosition})
+    tween:Play()
+
     delay(duration, function()
-        if notif and notif.Parent then
+        local tweenOut = TweenService:Create(notif, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {Position = UDim2.new(1, 10, 0, 10)})
+        tweenOut:Play()
+        tweenOut.Completed:Connect(function()
             notif:Destroy()
-        end
+        end)
     end)
+
     return notif
 end
 
