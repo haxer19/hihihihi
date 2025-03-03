@@ -1,0 +1,1 @@
+## học chưa hoàn thiện nên làm đang còn xấu, tất code chỉ là test :)
