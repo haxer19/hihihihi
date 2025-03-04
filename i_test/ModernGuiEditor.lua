@@ -1,6 +1,8 @@
 local ModernGuiEditor = {}
 
 function ModernGuiEditor.Create()
+    local TweenService = game:GetService("TweenService")
+
     local screenGui = Instance.new("ScreenGui")
     screenGui.Name = "CodeEditorGui"
     screenGui.ResetOnSpawn = false
@@ -10,8 +12,15 @@ function ModernGuiEditor.Create()
     openButton.Text = "Open Code Editor"
     openButton.Size = UDim2.new(0, 150, 0, 50)
     openButton.Position = UDim2.new(0.5, -75, 0.9, -25)
-    openButton.BackgroundColor3 = Color3.fromRGB(100, 100, 200)
+    openButton.BackgroundColor3 = Color3.fromRGB(75, 150, 200)
+    openButton.TextColor3 = Color3.new(1, 1, 1)
+    openButton.Font = Enum.Font.GothamSemibold
+    openButton.TextSize = 18
     openButton.Parent = screenGui
+
+    local openButtonCorner = Instance.new("UICorner")
+    openButtonCorner.CornerRadius = UDim.new(0, 10)
+    openButtonCorner.Parent = openButton
 
     local draggingButton = false
     local dragStartButton, startPosButton
@@ -37,16 +46,24 @@ function ModernGuiEditor.Create()
     local editorWindow = Instance.new("Frame")
     editorWindow.Name = "EditorWindow"
     editorWindow.Size = UDim2.new(0.8, 0, 0.7, 0)
-    editorWindow.Position = UDim2.new(0.1, 0, 0.1, 0)
-    editorWindow.BackgroundColor3 = Color3.fromRGB(40, 0, 40)  -- nền tối tím
+    editorWindow.Position = UDim2.new(0.1, 0, -1, 0) 
+    editorWindow.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     editorWindow.Visible = false
     editorWindow.Parent = screenGui
+
+    local editorWindowCorner = Instance.new("UICorner")
+    editorWindowCorner.CornerRadius = UDim.new(0, 12)
+    editorWindowCorner.Parent = editorWindow
 
     local topBar = Instance.new("Frame")
     topBar.Name = "TopBar"
     topBar.Size = UDim2.new(1, 0, 0.1, 0)
-    topBar.BackgroundColor3 = Color3.fromRGB(60, 0, 60)
+    topBar.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
     topBar.Parent = editorWindow
+
+    local topBarCorner = Instance.new("UICorner")
+    topBarCorner.CornerRadius = UDim.new(0, 12)
+    topBarCorner.Parent = topBar
 
     local titleLabel = Instance.new("TextLabel")
     titleLabel.Name = "TitleLabel"
@@ -54,7 +71,9 @@ function ModernGuiEditor.Create()
     titleLabel.Size = UDim2.new(1, -50, 1, 0)
     titleLabel.Position = UDim2.new(0, 0, 0, 0)
     titleLabel.BackgroundTransparency = 1
-    titleLabel.TextColor3 = Color3.new(1,1,1)
+    titleLabel.TextColor3 = Color3.new(1, 1, 1)
+    titleLabel.Font = Enum.Font.GothamBold
+    titleLabel.TextSize = 20
     titleLabel.Parent = topBar
 
     local closeButton = Instance.new("TextButton")
@@ -62,8 +81,15 @@ function ModernGuiEditor.Create()
     closeButton.Text = "X"
     closeButton.Size = UDim2.new(0, 50, 1, 0)
     closeButton.Position = UDim2.new(1, -50, 0, 0)
-    closeButton.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+    closeButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+    closeButton.TextColor3 = Color3.new(1, 1, 1)
+    closeButton.Font = Enum.Font.GothamSemibold
+    closeButton.TextSize = 18
     closeButton.Parent = topBar
+
+    local closeButtonCorner = Instance.new("UICorner")
+    closeButtonCorner.CornerRadius = UDim.new(0, 10)
+    closeButtonCorner.Parent = closeButton
 
     local draggingWindow = false
     local dragStartWindow, startPosWindow
@@ -86,10 +112,23 @@ function ModernGuiEditor.Create()
         end
     end)
 
+    local codeEditorFrame = Instance.new("ScrollingFrame")
+    codeEditorFrame.Name = "CodeEditorFrame"
+    codeEditorFrame.Size = UDim2.new(0.95, 0, 0.75, 0)
+    codeEditorFrame.Position = UDim2.new(0.025, 0, 0.15, 0)
+    codeEditorFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    codeEditorFrame.ScrollBarThickness = 8
+    codeEditorFrame.CanvasSize = UDim2.new(0, 0, 2, 0)
+    codeEditorFrame.Parent = editorWindow
+
+    local codeEditorCorner = Instance.new("UICorner")
+    codeEditorCorner.CornerRadius = UDim.new(0, 8)
+    codeEditorCorner.Parent = codeEditorFrame
+
     local codeEditor = Instance.new("TextBox")
     codeEditor.Name = "CodeEditor"
-    codeEditor.Size = UDim2.new(0.95, 0, 0.75, 0)
-    codeEditor.Position = UDim2.new(0.025, 0, 0.15, 0)
+    codeEditor.Size = UDim2.new(1, -10, 1, -10)
+    codeEditor.Position = UDim2.new(0, 5, 0, 5)
     codeEditor.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
     codeEditor.TextColor3 = Color3.fromRGB(240, 240, 240)
     codeEditor.ClearTextOnFocus = false
@@ -100,7 +139,7 @@ function ModernGuiEditor.Create()
     codeEditor.MultiLine = true
     codeEditor.Text = ""
     codeEditor.RichText = true  
-    codeEditor.Parent = editorWindow
+    codeEditor.Parent = codeEditorFrame
 
     local suggestionFrame = Instance.new("ScrollingFrame")
     suggestionFrame.Name = "SuggestionFrame"
@@ -109,7 +148,12 @@ function ModernGuiEditor.Create()
     suggestionFrame.BackgroundTransparency = 0.5
     suggestionFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     suggestionFrame.Visible = false
+    suggestionFrame.ScrollBarThickness = 4
     suggestionFrame.Parent = editorWindow
+
+    local suggestionCorner = Instance.new("UICorner")
+    suggestionCorner.CornerRadius = UDim.new(0, 8)
+    suggestionCorner.Parent = suggestionFrame
 
     local listLayout = Instance.new("UIListLayout")
     listLayout.Parent = suggestionFrame
@@ -146,6 +190,8 @@ function ModernGuiEditor.Create()
                     suggestionButton.BackgroundTransparency = 0.5
                     suggestionButton.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
                     suggestionButton.TextColor3 = Color3.new(1, 1, 1)
+                    suggestionButton.Font = Enum.Font.Gotham
+                    suggestionButton.TextSize = 16
                     suggestionButton.Parent = suggestionFrame
                     suggestionButton.MouseButton1Click:Connect(function()
                         local newText = string.gsub(text, "([^%s]+)$", suggestion)
@@ -153,6 +199,8 @@ function ModernGuiEditor.Create()
                         suggestionFrame.Visible = false
                     end)
                 end
+                local tweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+                TweenService:Create(suggestionFrame, tweenInfo, {BackgroundTransparency = 0.2}):Play()
             else
                 suggestionFrame.Visible = false
             end
@@ -167,7 +215,14 @@ function ModernGuiEditor.Create()
     runButton.Size = UDim2.new(0.3, 0, 0.1, 0)
     runButton.Position = UDim2.new(0.35, 0, 0.85, 0)
     runButton.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+    runButton.TextColor3 = Color3.new(1, 1, 1)
+    runButton.Font = Enum.Font.GothamBold
+    runButton.TextSize = 18
     runButton.Parent = editorWindow
+
+    local runButtonCorner = Instance.new("UICorner")
+    runButtonCorner.CornerRadius = UDim.new(0, 10)
+    runButtonCorner.Parent = runButton
 
     runButton.MouseButton1Click:Connect(function()
         local code = codeEditor.Text
@@ -187,10 +242,18 @@ function ModernGuiEditor.Create()
     openButton.MouseButton1Click:Connect(function()
         editorWindow.Visible = true
         openButton.Visible = false
+        local tweenInfo = TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
+        local tween = TweenService:Create(editorWindow, tweenInfo, {Position = UDim2.new(0.1, 0, 0.1, 0)})
+        tween:Play()
     end)
     closeButton.MouseButton1Click:Connect(function()
-        editorWindow.Visible = false
-        openButton.Visible = true
+        local tweenInfo = TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.In)
+        local tween = TweenService:Create(editorWindow, tweenInfo, {Position = UDim2.new(0.1, 0, -1, 0)})
+        tween:Play()
+        tween.Completed:Connect(function()
+            editorWindow.Visible = false
+            openButton.Visible = true
+        end)
     end)
 
     screenGui.Parent = game.CoreGui or game.Players.LocalPlayer:WaitForChild("PlayerGui")
