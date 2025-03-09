@@ -50,6 +50,12 @@ Window:EditOpenButton({
     )
 })
 
+local Notification = WindUI:Notify({
+    Title = "SynHaX",
+    Content = "Một số tính năng không sử dụng được vì không phải máy chủ riêng tư.",
+    Duration = 5,
+})
+
 local Tabs = {
     Main = Window:Tab({ Title = "Main", Icon = "rbxassetid://7733960981" }),
     Charms = Window:Tab({ Title = "Character Moveset", Icon = "code" }),
@@ -74,7 +80,7 @@ Tabs.Main:Toggle({
 })
 Tabs.Main:Toggle({
     Title = "Heal",
-    Desc = " ",
+    Desc = "buff máu không dừng",
     Value = false,
     Callback = function(value)
         config.ps.heal = value 
@@ -88,7 +94,7 @@ Tabs.Main:Toggle({
 })
 Tabs.Main:Button({
     Title = "Give Ultimate",
-    Desc = " ",
+    Desc = "Utl tối đa.",
     Callback = function() 
         game:GetService("ReplicatedStorage")["PS+ Remotes"].GiveUlt:FireServer()
     end
@@ -115,6 +121,11 @@ Tabs.Main:Toggle({
     Callback = function(value)
         config.sagp = value
         AntiGameplay.SetEnabled(config.sagp)
+        local Notification = WindUI:Notify({
+            Title = "SynHaX",
+            Content = "test - không chắc hoạt động ổn định",
+            Duration = 5,
+        })
     end
 })
 Tabs.Main:Button({
@@ -144,7 +155,7 @@ Tabs.Main:Button({
 Tabs.Main:Dropdown({
     Title = "Spawn",
     Values = { "AttackingDummy", "BlockingDummy", "CounteringDummy", "Dummy", "LowHPDummy" },
-    Value = "Dummy",
+    Value = "",
     Callback = function(option)
         if option == "AttackingDummy" then
             game:GetService("ReplicatedStorage")["PS+ Remotes"].SpawnAttackingDummy:FireServer()
@@ -161,7 +172,7 @@ Tabs.Main:Dropdown({
 })
 Tabs.Main:Toggle({
     Title = "Double Damage",
-    Desc = " ",
+    Desc = "--",
     Value = false,
     Callback = function(value)
         config.ps.damage = value 
@@ -174,7 +185,7 @@ Tabs.Main:Toggle({
 })
 Tabs.Main:Toggle({
     Title = "Double Health",
-    Desc = " ",
+    Desc = "--",
     Value = false,
     Callback = function(value)
         config.ps.health = value 
