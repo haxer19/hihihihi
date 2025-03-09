@@ -121,7 +121,7 @@ Tabs.Main:Button({
             end
         else
             local Notification = WindUI:Notify({
-                Title = "SynHax",
+                Title = "SynHaX",
                 Content = "Vui lòng bật: Heal - để sử dụng tính năng.",
                 Duration = 5,
             })
