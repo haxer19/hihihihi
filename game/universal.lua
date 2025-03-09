@@ -50,7 +50,7 @@ Window:EditOpenButton({
 })
 
 local Tabs = {
-    Main = Window:Tab({ Title = "Main", Icon = "home" }),
+    Main = Window:Tab({ Title = "Main", Icon = "rbxassetid://7733960981" }),
     Charms = Window:Tab({ Title = "Character Moveset", Icon = "code" }),
     Moves = Window:Tab({ Title = "Moves", Icon = "code" }),
 }
