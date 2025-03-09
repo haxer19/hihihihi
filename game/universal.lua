@@ -125,6 +125,7 @@ Tabs.Main:Button({
                 Content = "Vui lòng bật: Heal - để sử dụng tính năng.",
                 Duration = 5,
             })
+        end
     end
 })
 
@@ -201,7 +202,7 @@ Tabs.Charms:Button({
     Title = "Pucci MIH Character Moveset",
     Desc = "Pucci - The Grand Priest",
     Callback = function() 
-        game:GetService("ReplicatedStorage")["Atain Heavean"]
+        game:GetService("ReplicatedStorage")["Atain Heavean"]:FireServer()
     end
 })
 
@@ -209,7 +210,7 @@ Tabs.Charms:Button({
     Title = "Pucci WS Character Moveset",
     Desc = "Pucci - The Grand Priest",
     Callback = function() 
-        game:GetService("ReplicatedStorage").GivePucci
+        game:GetService("ReplicatedStorage").GivePucci:FireServer()
     end
 })
 
