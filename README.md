@@ -2,6 +2,7 @@
 ## Danh Sách Map Hiện Có
 - AnM Battlegrounds
 - Mage Battlegrounds
+- Universal Battlegrounds
 
 *Danh sách có thể cập nhật thêm trong tương lai!*
 ---
