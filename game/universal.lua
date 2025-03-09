@@ -99,8 +99,10 @@ Tabs.Main:Button({
     Title = "Admin Tool",
     Desc = "lấy các chiêu của admin",
     Callback = function()
+        local bp = game:GetService("Players").LocalPlayer:WaitForChild("Backpack")
+        for _, item in ipairs(bp:GetChildren()) do item:Destroy() end
         for _, tool in ipairs(game:GetService("ReplicatedStorage"):WaitForChild("exe_storage"):WaitForChild("tools"):GetChildren()) do
-            tool:Clone().Parent = game:GetService("Players").LocalPlayer:WaitForChild("Backpack")
+            tool:Clone().Parent = bp
         end
     end
 })
