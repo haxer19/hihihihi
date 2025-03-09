@@ -15,7 +15,8 @@ local config = {
         heal = false,
         damage = false,
         health = false,
-    }
+    },
+    sagp = false,
 }
 
 local icon = {
@@ -93,18 +94,29 @@ Tabs.Main:Button({
     end
 })
 
-Tabs.Main:Button({
-    Title = "Admin Tool",
-    Desc = "lấy các chiêu của admin",
-    Callback = function()
-        local bp = game:GetService("Players").LocalPlayer:WaitForChild("Backpack")
-        for _, item in ipairs(bp:GetChildren()) do item:Destroy() end
-        for _, tool in ipairs(game:GetService("ReplicatedStorage"):WaitForChild("exe_storage"):WaitForChild("tools"):GetChildren()) do
-            tool:Clone().Parent = bp
-        end
+-- Tabs.Main:Button({
+--     Title = "Admin Tool",
+--     Desc = "lấy các chiêu của admin",
+--     Callback = function()
+--         local bp = game:GetService("Players").LocalPlayer:WaitForChild("Backpack")
+--         for _, item in ipairs(bp:GetChildren()) do item:Destroy() end
+--         for _, tool in ipairs(game:GetService("ReplicatedStorage"):WaitForChild("exe_storage"):WaitForChild("tools"):GetChildren()) do
+--             tool:Clone().Parent = bp
+--         end
+--     end
+-- })
+Tabs.Main:Section({ Title = "Other", TextXAlignment = "Center" })
+local AntiGameplay = loadstring(game:HttpGet("https://raw.githubusercontent.com/haxer19/hihihihi/main/AntiGameplayPaused.lua"))()
+
+Tabs.Main:Toggle({
+    Title = "Gameplay Paused",
+    Desc = "Bật/Tắt Gameplay Paused",
+    Value = false,
+    Callback = function(value)
+        config.sagp = value
+        AntiGameplay.SetEnabled(config.sagp)
     end
 })
-
 Tabs.Main:Button({
     Title = "All Moves At Once",
     Desc = "cre: hao",
@@ -233,7 +245,7 @@ end
 Tabs.Moves:Dropdown({
     Title = "Move - Char",
     Values = tnames,
-    Value = tnames[1] or "",  
+    Value = "",  
     Callback = function(option)
         local sctool = toolMap[option] 
         
@@ -274,12 +286,30 @@ end
 Tabs.Moves:Dropdown({
     Title = "Move - Ult",
     Values = ultNames,
-    Value = ultNames[1] or "",
+    Value = "",
     Callback = function(option)
         local selectedUlt = ultMap[option]
         if selectedUlt then
             local clonedUlt = selectedUlt:Clone()
             clonedUlt.Parent = game:GetService("Players").LocalPlayer:WaitForChild("Backpack")
+        end
+    end
+})
+
+-- ad
+local mtad = {}
+for i, tool in ipairs(game:GetService("ReplicatedStorage"):WaitForChild("exe_storage"):WaitForChild("tools"):GetChildren()) do
+    table.insert(mtad, tool.Name)
+end
+
+Tabs.Moves:Dropdown({
+    Title = "Move - Ad",
+    Values = mtad,
+    Value = "",
+    Callback = function(option)
+        local selad = game:GetService("ReplicatedStorage"):WaitForChild("exe_storage"):WaitForChild("tools"):FindFirstChild(option)
+        if selad then
+            selad:Clone().Parent = game.Players.LocalPlayer.Backpack
         end
     end
 })
