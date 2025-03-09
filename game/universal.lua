@@ -28,38 +28,24 @@ local WindUI = loadstring(game:HttpGet("https://tree-hub.vercel.app/api/UI/WindU
 
 local Window = WindUI:CreateWindow({
     Title = "Universal Battlegrounds | Username: " .. username, 
-    Icon = "rbxassetid://74835846528618", 
+    Icon = icon.ccc,
     Author = ".C4F", 
     Folder = "SynHaX_universal", 
     Size = getopsize(), 
     Transparent = true,
-    Theme = "Dark", 
-    SideBarWidth = 200, 
-    HasOutline = false,
+    Theme = "Dark",
+    SideBarWidth = 200,
+    HasOutline = false,    
 })
-
-WindUI:SetNotificationLower(false)
-
-Window:EditOpenButton({
-    Title = "Open",
-    Icon = icon.ccc, 
-    CornerRadius = UDim.new(0,10),
-    StrokeThickness = 3,
-    Color = ColorSequence.new(
-        Color3.fromHex("FF0F7B"), 
-        Color3.fromHex("F89B29")
-    )
-})
-
-WindUI.TransparencyValue = .1
 
 local Tabs = {
     Main = Window:Tab({ Title = "Main", Icon = "home" }),
+    Move = Window:Tab({ Title = "Move", Icon = "code" }),
 }
 
 Window:SelectTab(1)
 
-Tabs.Main:Section({ Title = "Cooldown", TextXAlignment = "Center" })
+Tabs.Main:Section({ Title = "PS+", TextXAlignment = "Center" })
 Tabs.Main:Toggle({
     Title = "Cooldown",
     Desc = "Bật/Tắt Cooldown",
