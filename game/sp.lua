@@ -46,19 +46,17 @@ local Tabs = {
 Window:SelectTab(1)
 
 Tabs.Main:Section({ Title = "Tool Equip" })
-lib.WatchToolList(function(list)
-	Tabs.Main:Dropdown({
-		Title = "Tools",
-		Values = list,
-		Value = "",
-		Callback = function(opt)
-			local cat, item = opt:match("^(%w+)%s*%-%s*(.+)$")
-			if cat and item then
-				lib.CreateTool(item, cat)
-			end
+Tabs.Main:Dropdown({
+	Title = "Tools",
+	Values = lib.GetToolList(),
+	Value = "",
+	Callback = function(opt)
+		local cat, item = opt:match("^(%w+)%s*%-%s*(.+)$")
+		if cat and item then
+			lib.CreateTool(item, cat)
 		end
-	})
-end)
+	end
+})
 Tabs.Main:Button({
     Title = "Rs bp",
     Desc = "làm mới túi đồ",

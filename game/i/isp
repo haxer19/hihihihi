@@ -1,11 +1,10 @@
 local lib = {}
 local RS = game:GetService("ReplicatedStorage")
 local UIS = game:GetService("UserInputService")
-local Players = game:GetService("Players")
-local plr = Players.LocalPlayer
+local RunService = game:GetService("RunService")
+local plr = game.Players.LocalPlayer
 
-local defaultKeys = {"Z","X","C","V"}
-local categories = {"Gun","Melee","Powers","Sword"}
+local categories = {"Gun", "Melee", "Powers", "Sword"}
 
 local function getChild(parent, name)
 	if string.find(name, "%s") then
@@ -15,70 +14,54 @@ local function getChild(parent, name)
 	end
 end
 
-function lib.WaitForLoaded()
-	RS:WaitForChild("Events")
-	local anims = RS:WaitForChild("Animations")
-	anims:WaitForChild("Fighting")
+local toolList = {}
+
+local function updateToolList()
+	local ev = RS:FindFirstChild("Events")
+	if not ev then return end
+	local newList = {}
 	for _, cat in ipairs(categories) do
-		RS.Events:WaitForChild(cat)
-		RS.Animations.Fighting:WaitForChild(cat)
+		local folder = ev:FindFirstChild(cat)
+		if folder then
+			for _, item in ipairs(folder:GetChildren()) do
+				table.insert(newList, cat.." - "..item.Name)
+			end
+		end
 	end
+	toolList = newList
+end
+
+spawn(function()
+	while true do
+		updateToolList()
+		wait(1)
+	end
+end)
+
+function lib.GetToolList()
+	return toolList
 end
 
 function lib.ListItems()
-	lib.WaitForLoaded()
-	local ev = RS.Events
-	for _, cat in ipairs(categories) do
-		local folder = ev:FindFirstChild(cat)
-		if folder then
-			local items = {}
-			for _, item in ipairs(folder:GetChildren()) do
-				table.insert(items, item.Name)
-			end
-			print(cat..": "..table.concat(items, ", "))
-		end
+	updateToolList()
+	for _, entry in ipairs(toolList) do
+		print(entry)
 	end
-end
-
-function lib.GetToolList()
-	lib.WaitForLoaded()
-	local ev = RS.Events
-	local list = {}
-	for _, cat in ipairs(categories) do
-		local folder = ev:FindFirstChild(cat)
-		if folder then
-			for _, item in ipairs(folder:GetChildren()) do
-				table.insert(list, cat.." - "..item.Name)
-			end
-		end
-	end
-	return list
-end
-
-function lib.WatchToolList(callback)
-	spawn(function()
-		while true do
-			local list = lib.GetToolList()
-			callback(list)
-			wait(1)
-		end
-	end)
 end
 
 function lib.CreateTool(itemName, cat)
-	lib.WaitForLoaded()
-	local evCat = RS.Events:FindFirstChild(cat)
-	if not evCat then error("Không tìm thấy Events."..cat) end
+	local evCat = RS:WaitForChild("Events"):WaitForChild(cat)
 	local remote = getChild(evCat, itemName)
-	if not remote then error("Không tìm thấy "..itemName.." trong "..cat) end
+	--if not remote then error("Không tìm thấy "..itemName.." trong Events."..cat) end
 
-	local order = defaultKeys
+	local anims = RS:WaitForChild("Animations"):WaitForChild("Fighting")
+	local animCat = anims:FindFirstChild(cat)
+	local animItem = animCat and getChild(animCat, itemName) or nil
+
+	local defaultKeys = {"Z", "X", "C", "V"}
 	local keysAllowed = {}
-	local animsFighting = RS.Animations:WaitForChild("Fighting")
-	local animCat = animsFighting:FindFirstChild(cat)
-	local animItem = animCat and getChild(animCat, itemName)
 	if animItem then
-		for _, k in ipairs(order) do
+		for _, k in ipairs(defaultKeys) do
 			if animItem:FindFirstChild(k) then
 				table.insert(keysAllowed, k)
 			end
