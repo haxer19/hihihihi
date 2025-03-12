@@ -46,30 +46,14 @@ Window:SelectTab(1)
 
 Tabs.Main:Section({ Title = "Tool Equip" })
 local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/haxer19/hihihihi/main/game/i/isp"))()
-local RS = game:GetService("ReplicatedStorage")
-local ev = RS:WaitForChild("Events")
-local cats = {"Gun", "Melee", "Powers", "Sword"}
-local opts = {}
-local mapping = {}
-
-for _, cat in ipairs(cats) do
-	local folder = ev:FindFirstChild(cat)
-	if folder then
-		for _, tool in ipairs(folder:GetChildren()) do
-			local opt = cat.." - "..tool.Name
-			table.insert(opts, opt)
-			mapping[opt] = {cat = cat, item = tool.Name}
-		end
-	end
-end
 Tabs.Main:Dropdown({
 	Title = "Tools",
-	Values = opts,
+	Values = lib.GetToolList(),
 	Value = "",
-	Callback = function(option)
-		local sel = mapping[option]
-		if sel then
-			lib.CreateTool(sel.item, sel.cat)
+	Callback = function(opt)
+		local cat, item = opt:match("^(%w+)%s*%-%s*(.+)$")
+		if cat and item then
+			lib.CreateTool(item, cat)
 		end
 	end
 })

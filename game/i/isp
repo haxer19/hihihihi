@@ -18,13 +18,32 @@ function lib.ListItems()
 	end
 end
 
+function lib.GetToolList()
+	local ev = RS:WaitForChild("Events")
+	local cats = {"Gun","Melee","Powers","Sword"}
+	local list = {}
+	for _, cat in ipairs(cats) do
+		local f = ev:FindFirstChild(cat)
+		if f then
+			for _, item in ipairs(f:GetChildren()) do
+				table.insert(list, cat.." - "..item.Name)
+			end
+		end
+	end
+	return list
+end
+
 function lib.CreateTool(itemName, cat)
 	local evF = RS:WaitForChild("Events"):FindFirstChild(cat)
+	if not evF then error("Không tìm thấy Events."..cat) end
 	local remote = evF:FindFirstChild(itemName)
+	if not remote then error("Không tìm thấy "..itemName.." trong "..cat) end
 	
 	local anims = RS:WaitForChild("Animations"):WaitForChild("Fighting")
 	local animCat = anims:FindFirstChild(cat)
+	if not animCat then error("Không tìm thấy Animations.Fighting."..cat) end
 	local animItem = animCat:FindFirstChild(itemName)
+	if not animItem then error("Không tìm thấy Animations.Fighting."..cat.."."..itemName) end
 	
 	local keysAllowed = {}
 	local order = {"Z","X","C","V"}
