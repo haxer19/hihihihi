@@ -2,6 +2,7 @@ local places = {
     [14735849025] = {tn = "AnM Battlegrounds", url = "https://raw.githubusercontent.com/haxer19/hihihihi/main/game/anm.lua"},
     [16519296344] = {tn = "Mage Battlegrounds", url = "https://raw.githubusercontent.com/haxer19/hihihihi/main/game/mage.lua" },
     [14044811032] = {tn = "Universal Battlegrounds", url = "https://raw.githubusercontent.com/haxer19/hihihihi/main/game/universal.lua" },
+    [81115867445435] = {tn = "Shonen Piece", url = "https://raw.githubusercontent.com/haxer19/hihihihi/main/game/sp.lua" },
 }
 
 local function createErrorGUI(errorMessage)
