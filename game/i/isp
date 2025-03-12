@@ -3,17 +3,25 @@ local RS = game:GetService("ReplicatedStorage")
 local UIS = game:GetService("UserInputService")
 local plr = game.Players.LocalPlayer
 
+local function getChild(parent, name)
+	if string.find(name, "%s") then
+		return parent:FindFirstChild(name)
+	else
+		return parent[name] or parent:FindFirstChild(name)
+	end
+end
+
 function lib.ListItems()
 	local ev = RS:WaitForChild("Events")
 	local cats = {"Gun","Melee","Powers","Sword"}
 	for _, cat in ipairs(cats) do
-		local f = ev:FindFirstChild(cat)
-		if f then
-			local arr = {}
-			for _, item in ipairs(f:GetChildren()) do
-				table.insert(arr, item.Name)
+		local folder = ev:FindFirstChild(cat)
+		if folder then
+			local items = {}
+			for _, item in ipairs(folder:GetChildren()) do
+				table.insert(items, item.Name)
 			end
-			print(cat..": "..table.concat(arr, ", "))
+			print(cat..": "..table.concat(items, ", "))
 		end
 	end
 end
@@ -23,9 +31,9 @@ function lib.GetToolList()
 	local cats = {"Gun","Melee","Powers","Sword"}
 	local list = {}
 	for _, cat in ipairs(cats) do
-		local f = ev:FindFirstChild(cat)
-		if f then
-			for _, item in ipairs(f:GetChildren()) do
+		local folder = ev:FindFirstChild(cat)
+		if folder then
+			for _, item in ipairs(folder:GetChildren()) do
 				table.insert(list, cat.." - "..item.Name)
 			end
 		end
@@ -34,17 +42,17 @@ function lib.GetToolList()
 end
 
 function lib.CreateTool(itemName, cat)
-	local evF = RS:WaitForChild("Events"):FindFirstChild(cat)
-	if not evF then error("Không tìm thấy Events."..cat) end
-	local remote = evF:FindFirstChild(itemName)
+	local evCat = RS:WaitForChild("Events"):FindFirstChild(cat)
+	if not evCat then error("Không tìm thấy Events."..cat) end
+	local remote = getChild(evCat, itemName)
 	if not remote then error("Không tìm thấy "..itemName.." trong "..cat) end
-	
+
 	local anims = RS:WaitForChild("Animations"):WaitForChild("Fighting")
 	local animCat = anims:FindFirstChild(cat)
 	if not animCat then error("Không tìm thấy Animations.Fighting."..cat) end
-	local animItem = animCat:FindFirstChild(itemName)
+	local animItem = getChild(animCat, itemName)
 	if not animItem then error("Không tìm thấy Animations.Fighting."..cat.."."..itemName) end
-	
+
 	local keysAllowed = {}
 	local order = {"Z","X","C","V"}
 	for _, k in ipairs(order) do
@@ -52,17 +60,18 @@ function lib.CreateTool(itemName, cat)
 			table.insert(keysAllowed, k)
 		end
 	end
-	
+
 	local tool = Instance.new("Tool")
 	tool.Name = itemName
 	tool.RequiresHandle = false
 	tool.CanBeDropped = false
-	
+
 	local sg = Instance.new("ScreenGui")
-	sg.Name = "MobileControlGui_"..itemName
+	sg.Name = "MobileControlGui"
 	sg.ResetOnSpawn = false
 	sg.Enabled = false
-	
+	sg.Parent = tool
+
 	local frame = Instance.new("Frame")
 	frame.Name = "ControlFrame"
 	frame.Size = UDim2.new(0,80,0,230)
@@ -70,18 +79,18 @@ function lib.CreateTool(itemName, cat)
 	frame.BackgroundColor3 = Color3.fromRGB(25,25,25)
 	frame.BackgroundTransparency = 0.5
 	frame.Parent = sg
-	
+
 	local uiC = Instance.new("UICorner")
 	uiC.CornerRadius = UDim.new(0,20)
 	uiC.Parent = frame
-	
+
 	local listL = Instance.new("UIListLayout")
 	listL.Padding = UDim.new(0,10)
 	listL.FillDirection = Enum.FillDirection.Vertical
 	listL.HorizontalAlignment = Enum.HorizontalAlignment.Center
 	listL.VerticalAlignment = Enum.VerticalAlignment.Center
 	listL.Parent = frame
-	
+
 	for i, k in ipairs(keysAllowed) do
 		local btn = Instance.new("TextButton")
 		btn.Name = "Button_"..k
@@ -93,20 +102,22 @@ function lib.CreateTool(itemName, cat)
 		btn.TextSize = 18
 		btn.LayoutOrder = i
 		btn.Parent = frame
+
 		local btnC = Instance.new("UICorner")
 		btnC.CornerRadius = UDim.new(1,0)
 		btnC.Parent = btn
+
 		btn.MouseButton1Click:Connect(function()
 			remote:FireServer(k)
 		end)
 	end
-	
+
 	local dragging, dragInput, dragStart, startPos
 	local function update(input)
 		local delta = input.Position - dragStart
 		frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
 	end
-	
+
 	frame.InputBegan:Connect(function(input)
 		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 			dragging = true
@@ -117,46 +128,65 @@ function lib.CreateTool(itemName, cat)
 			end)
 		end
 	end)
-	
+
 	frame.InputChanged:Connect(function(input)
 		if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
 			dragInput = input
 		end
 	end)
-	
+
 	local dragConn = UIS.InputChanged:Connect(function(input)
 		if input == dragInput and dragging then update(input) end
 	end)
-	
+
 	local keyMap = {}
 	for _, k in ipairs(keysAllowed) do
 		keyMap[Enum.KeyCode[k]] = k
 	end
-	
+
 	local inpConn
+
 	tool.Equipped:Connect(function()
-		sg.Parent = plr:WaitForChild("PlayerGui")
-		sg.Enabled = true
+		for _, gui in ipairs(plr.PlayerGui:GetChildren()) do
+			if gui:IsA("ScreenGui") and gui.Name == "MobileControlGui" then
+				gui.Enabled = false
+			end
+		end
+		local gui = tool:FindFirstChild("MobileControlGui")
+		if gui then
+			gui.Parent = plr.PlayerGui
+			gui.Enabled = true
+		end
 		inpConn = UIS.InputBegan:Connect(function(input, processed)
 			if processed then return end
 			local k = keyMap[input.KeyCode]
 			if k then remote:FireServer(k) end
 		end)
 	end)
-	
+
 	tool.Unequipped:Connect(function()
-		if inpConn then inpConn:Disconnect() end
-		if dragConn then dragConn:Disconnect() end
-		if sg and sg.Parent then sg:Destroy() end
+		if inpConn then
+			inpConn:Disconnect()
+			inpConn = nil
+		end
+		if dragConn then
+			dragConn:Disconnect()
+			dragConn = nil
+		end
+		local gui = plr.PlayerGui:FindFirstChild("MobileControlGui")
+		if gui then
+			gui.Enabled = false
+			gui.Parent = tool
+		end
 	end)
-	
+
 	tool.AncestryChanged:Connect(function(_, parent)
 		if parent ~= plr.Backpack and (not plr.Character or parent ~= plr.Character) then
 			wait(0.1)
 			tool.Parent = plr.Backpack
 		end
 	end)
-	
+
 	tool.Parent = plr.Backpack
 	return tool
 end

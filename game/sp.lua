@@ -13,6 +13,7 @@ local icon = {
     ccc = "rbxassetid://74835846528618",
 }
 
+local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/haxer19/hihihihi/main/game/i/isp"))()
 local WindUI = loadstring(game:HttpGet("https://tree-hub.vercel.app/api/UI/WindUI"))()
 
 local Window = WindUI:CreateWindow({
@@ -45,7 +46,6 @@ local Tabs = {
 Window:SelectTab(1)
 
 Tabs.Main:Section({ Title = "Tool Equip" })
-local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/haxer19/hihihihi/main/game/i/isp"))()
 Tabs.Main:Dropdown({
 	Title = "Tools",
 	Values = lib.GetToolList(),
