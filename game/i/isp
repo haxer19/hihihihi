@@ -51,12 +51,12 @@ end
 function lib.CreateTool(itemName, cat)
 	local evCat = RS:WaitForChild("Events"):WaitForChild(cat)
 	local remote = getChild(evCat, itemName)
-
+	
 	local anims = RS:WaitForChild("Animations"):WaitForChild("Fighting")
 	local animFolder = (cat == "Powers") and "Power" or cat
 	local animCat = anims:FindFirstChild(animFolder)
 	local animItem = animCat and getChild(animCat, itemName) or nil
-
+	
 	local keysAllowed = {}
 	if animItem then
 		for _, k in ipairs(defaultKeys) do
@@ -68,18 +68,18 @@ function lib.CreateTool(itemName, cat)
 	if #keysAllowed == 0 then
 		keysAllowed = defaultKeys
 	end
-
+	
 	local tool = Instance.new("Tool")
 	tool.Name = itemName
 	tool.RequiresHandle = false
 	tool.CanBeDropped = false
-
+	
 	local sg = Instance.new("ScreenGui")
 	sg.Name = "MobileControlGui"
 	sg.ResetOnSpawn = false
 	sg.Enabled = false
 	sg.Parent = tool
-
+	
 	local frame = Instance.new("Frame")
 	frame.Name = "ControlFrame"
 	frame.Size = UDim2.new(0,80,0,230)
@@ -87,18 +87,18 @@ function lib.CreateTool(itemName, cat)
 	frame.BackgroundColor3 = Color3.fromRGB(25,25,25)
 	frame.BackgroundTransparency = 0.5
 	frame.Parent = sg
-
+	
 	local uiC = Instance.new("UICorner")
 	uiC.CornerRadius = UDim.new(0,20)
 	uiC.Parent = frame
-
+	
 	local listL = Instance.new("UIListLayout")
 	listL.Padding = UDim.new(0,10)
 	listL.FillDirection = Enum.FillDirection.Vertical
 	listL.HorizontalAlignment = Enum.HorizontalAlignment.Center
 	listL.VerticalAlignment = Enum.VerticalAlignment.Center
 	listL.Parent = frame
-
+	
 	for i, k in ipairs(keysAllowed) do
 		local btn = Instance.new("TextButton")
 		btn.Name = "Button_"..k
@@ -110,22 +110,22 @@ function lib.CreateTool(itemName, cat)
 		btn.TextSize = 18
 		btn.LayoutOrder = i
 		btn.Parent = frame
-
+		
 		local btnC = Instance.new("UICorner")
 		btnC.CornerRadius = UDim.new(1,0)
 		btnC.Parent = btn
-
+		
 		btn.MouseButton1Click:Connect(function()
 			remote:FireServer(k)
 		end)
 	end
-
+	
 	local dragging, dragInput, dragStart, startPos
 	local function update(input)
 		local delta = input.Position - dragStart
 		frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
 	end
-
+	
 	frame.InputBegan:Connect(function(input)
 		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 			dragging = true
@@ -136,22 +136,22 @@ function lib.CreateTool(itemName, cat)
 			end)
 		end
 	end)
-
+	
 	frame.InputChanged:Connect(function(input)
 		if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
 			dragInput = input
 		end
 	end)
-
+	
 	local dragConn = UIS.InputChanged:Connect(function(input)
 		if input == dragInput and dragging then update(input) end
 	end)
-
+	
 	local keyMap = {}
 	for _, k in ipairs(keysAllowed) do
 		keyMap[Enum.KeyCode[k]] = k
 	end
-
+	
 	local inpConn
 	tool.Equipped:Connect(function()
 		for _, gui in ipairs(plr.PlayerGui:GetChildren()) do
@@ -170,7 +170,7 @@ function lib.CreateTool(itemName, cat)
 			if k then remote:FireServer(k) end
 		end)
 	end)
-
+	
 	tool.Unequipped:Connect(function()
 		if inpConn then
 			inpConn:Disconnect()
@@ -186,14 +186,14 @@ function lib.CreateTool(itemName, cat)
 			gui.Parent = tool
 		end
 	end)
-
+	
 	tool.AncestryChanged:Connect(function(_, parent)
 		if parent ~= plr.Backpack and (not plr.Character or parent ~= plr.Character) then
 			wait(0.1)
 			tool.Parent = plr.Backpack
 		end
 	end)
-
+	
 	tool.Parent = plr.Backpack
 	return tool
 end
