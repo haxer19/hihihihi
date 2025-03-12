@@ -74,10 +74,9 @@ Tabs.Main:Button({
     end
 })   
 Tabs.Main:Button({
-    Title = "AI1",
-    Desc = "Ban hao baccay",
+    Title = "Fire A Random Skill",
+    Desc = "Soucre Of Hao",
     Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/haxer19/hihihihi/main/game/backup/sp_backup"))()
-        game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest"):FireServer("tôi là bắc cầy, hày gao", "All")
     end
 }) 
