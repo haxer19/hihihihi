@@ -3,8 +3,9 @@ local RS = game:GetService("ReplicatedStorage")
 local UIS = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
 local plr = game.Players.LocalPlayer
-
 local categories = {"Gun", "Melee", "Powers", "Sword"}
+local defaultKeys = {"Z", "X", "C", "V"}
+local toolList = {}
 
 local function getChild(parent, name)
 	if string.find(name, "%s") then
@@ -13,8 +14,6 @@ local function getChild(parent, name)
 		return parent[name] or parent:FindFirstChild(name)
 	end
 end
-
-local toolList = {}
 
 local function updateToolList()
 	local ev = RS:FindFirstChild("Events")
@@ -52,13 +51,12 @@ end
 function lib.CreateTool(itemName, cat)
 	local evCat = RS:WaitForChild("Events"):WaitForChild(cat)
 	local remote = getChild(evCat, itemName)
-	--if not remote then error("Không tìm thấy "..itemName.." trong Events."..cat) end
 
 	local anims = RS:WaitForChild("Animations"):WaitForChild("Fighting")
-	local animCat = anims:FindFirstChild(cat)
+	local animFolder = (cat == "Powers") and "Power" or cat
+	local animCat = anims:FindFirstChild(animFolder)
 	local animItem = animCat and getChild(animCat, itemName) or nil
 
-	local defaultKeys = {"Z", "X", "C", "V"}
 	local keysAllowed = {}
 	if animItem then
 		for _, k in ipairs(defaultKeys) do
@@ -155,7 +153,6 @@ function lib.CreateTool(itemName, cat)
 	end
 
 	local inpConn
-
 	tool.Equipped:Connect(function()
 		for _, gui in ipairs(plr.PlayerGui:GetChildren()) do
 			if gui:IsA("ScreenGui") and gui.Name == "MobileControlGui" then
