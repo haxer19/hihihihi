@@ -58,9 +58,26 @@ Tabs.Main:Dropdown({
 	end
 })
 Tabs.Main:Button({
-    Title = "Rs bp",
-    Desc = "làm mới túi đồ",
+    Title = "Reset Backpack",
+    Desc = "Làm mới túi đồ.",
     Callback = function()
         for _, item in ipairs(game:GetService("Players").LocalPlayer:WaitForChild("Backpack"):GetChildren()) do item:Destroy() end
     end
 })   
+Tabs.Main:Section({ Title = "Others" })
+Tabs.Main:Button({
+    Title = "Redeem All Codes",
+    Desc = "Nhập tất cả code.",
+    Callback = function()
+        local fc = game:GetService("Players").LocalPlayer.Data.Codes 
+        for _, code in pairs(fc:GetChildren()) do game:GetService("ReplicatedStorage").Events.Codes:FireServer(code.Name) end
+    end
+})   
+Tabs.Main:Button({
+    Title = "AI1",
+    Desc = "Ban hao baccay",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/haxer19/hihihihi/main/game/backup/sp_backup"))()
+        game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest"):FireServer("tôi là bắc cầy, hày gao", "All")
+    end
+}) 
