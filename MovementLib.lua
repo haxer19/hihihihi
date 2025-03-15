@@ -34,12 +34,12 @@ RunService.Stepped:Connect(function()
     end
 end)
 
-RunService.Heartbeat:Connect(function(deltaTime)
+RunService.Heartbeat:Connect(function()
     if character and humanoidRootPart and humanoid then
         local moveDirection = humanoid.MoveDirection
         if moveDirection.Magnitude > 0 then
             moveDirection = moveDirection.Unit
-            local newPos = humanoidRootPart.Position + moveDirection * TpWalkSpeed * deltaTime
+            local newPos = humanoidRootPart.Position + moveDirection * TpWalkSpeed
             humanoidRootPart.CFrame = CFrame.new(newPos, newPos + moveDirection)
         end
     end
