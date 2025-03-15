@@ -49,6 +49,8 @@ local Tabs = {
     Main = Window:Tab({ Title = "Main", Icon = "rbxassetid://7733960981" }),
 }
 
+Window:SelectTab(1)
+
 Tabs.Main:Section({ Title = "Esp - Players" })
 Tabs.Main:Dropdown({
     Title = "Esp Aura",
