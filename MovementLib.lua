@@ -10,7 +10,7 @@ local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
 local humanoid = character:WaitForChild("Humanoid")
 
 local noclipEnabled = false
-local TpWalkSpeed = 1  
+local TpWalkSpeed = 1
 
 player.CharacterAdded:Connect(function(newCharacter)
     character = newCharacter
@@ -29,7 +29,7 @@ local function updateNoclip()
 end
 
 RunService.Stepped:Connect(function()
-    if noclipEnabled and character then
+    if character and noclipEnabled then
         updateNoclip()
     end
 end)
@@ -47,6 +47,11 @@ end)
 
 function MovementLib.SetNoclip(state)
     noclipEnabled = state
+    if not noclipEnabled then
+        if humanoidRootPart then
+            humanoidRootPart.CFrame = humanoidRootPart.CFrame + Vector3.new(0, 3, 0)
+        end
+    end
 end
 
 function MovementLib.SetTpWalkSpeed(speed)
