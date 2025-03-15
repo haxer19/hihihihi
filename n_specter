@@ -1,0 +1,32 @@
+while wait(5) do
+    local EMF = workspace.Dynamic.Evidence.EMF
+    if EMF:FindFirstChild("EMF5") then
+        local Notification = WindUI:Notify({
+            Title = "Thông Báo",
+            Content = "EMF 5 Detected",
+            Duration = 5,
+        })
+    end
+end
+
+while wait(5) do
+    local GOrbs = workspace.Dynamic.Evidence.Orbs
+    if GOrbs:FindFirstChild("Orb") then
+        local Notification = WindUI:Notify({
+            Title = "Thông Báo",
+            Content = "Ghost Orbs Detected",
+            Duration = 5,
+        })
+    end
+end
+
+while wait(5) do
+    local Fingerprint = workspace.Dynamic.Evidence.Fingerprints
+    if Fingerprint:FindFirstChild("Fingerprint") then
+        local Notification = WindUI:Notify({
+            Title = "Thông Báo",
+            Content = "Fingerprints Detected",
+            Duration = 5,
+        })
+    end
+end

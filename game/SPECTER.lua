@@ -20,6 +20,7 @@ local ESP_P = loadstring(game:HttpGet("https://raw.githubusercontent.com/haxer19
 local ESP_N = loadstring(game:HttpGet("https://raw.githubusercontent.com/haxer19/hihihihi/main/ESPLibrary_NPCs.lua"))()
 local MovementLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/haxer19/hihihihi/main/MovementLib.lua"))()
 local fb = loadstring(game:HttpGet("https://raw.githubusercontent.com/haxer19/hihihihi/main/FullBrightLib.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/haxer19/hihihihi/main/n_specter"))()
 
 local Window = WindUI:CreateWindow({
     Title = "SPECTER | Username: " .. username, 
