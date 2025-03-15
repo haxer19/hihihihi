@@ -1,6 +1,7 @@
 local ESP = {}
 
 ESP.Colors = {
+    White = Color3.fromRGB(255, 255, 255),
     Green = Color3.fromRGB(0, 255, 0),
     Blue = Color3.fromRGB(0, 0, 255),
     Red = Color3.fromRGB(255, 0, 0),
@@ -9,7 +10,7 @@ ESP.Colors = {
     Purple = Color3.fromRGB(128, 0, 128)
 }
 
-ESP.Color = ESP.Colors.Red
+ESP.Color = ESP.Colors.White
 
 ESP.Enabled = false
 
@@ -31,23 +32,30 @@ end
 
 local function addHighlightToNPC(npc)
     if not npc or not npc:IsA("Model") then return end
-    if npc:FindFirstChild("HighlightESP") then return end  
+    local adornee = getAdorneeForNPC(npc)
+    if not adornee then return end
+    if adornee:FindFirstChild("ESPBox") then return end
 
-    local highlight = Instance.new("Highlight")
-    highlight.Name = "HighlightESP"
-    highlight.Adornee = npc
-    highlight.Parent = npc
-    highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-    highlight.FillColor = ESP.Color
-    highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
-    highlight.FillTransparency = 0.5
+    local box = Instance.new("BoxHandleAdornment")
+    box.Name = "ESPBox"
+    box.Adornee = adornee
+    box.Parent = adornee
+    box.AlwaysOnTop = true
+    box.Color3 = Color3.fromRGB(0, 0, 255) 
+    box.Transparency = 0  
+    box.LineThickness = 2
+    box.ZIndex = 10
+    box.Size = adornee.Size
 end
 
 local function removeHighlightFromNPC(npc)
     if not npc or not npc:IsA("Model") then return end
-    local highlight = npc:FindFirstChild("HighlightESP")
-    if highlight then
-        highlight:Destroy()
+    local adornee = getAdorneeForNPC(npc)
+    if adornee then
+        local box = adornee:FindFirstChild("ESPBox")
+        if box then
+            box:Destroy()
+        end
     end
 end
 
@@ -62,8 +70,8 @@ local function addESPTextToNPC(npc)
     billboard.Name = "ESPText"
     billboard.Adornee = adornee
     billboard.AlwaysOnTop = true
-    billboard.Size = UDim2.new(0, 200, 0, 50)
-    billboard.StudsOffset = Vector3.new(0, 2, 0)
+    billboard.Size = UDim2.new(0, 150, 0, 30)  
+    billboard.StudsOffset = Vector3.new(0, 3, 0)
     billboard.Parent = npc
 
     local textLabel = Instance.new("TextLabel")
@@ -72,7 +80,8 @@ local function addESPTextToNPC(npc)
     textLabel.BackgroundTransparency = 1
     textLabel.TextColor3 = ESP.Color
     textLabel.TextStrokeTransparency = 0
-    textLabel.TextScaled = true
+    textLabel.TextScaled = false  
+    textLabel.TextSize = 14      
     textLabel.Font = Enum.Font.SourceSansBold
     textLabel.Parent = billboard
 end
@@ -110,9 +119,12 @@ local function updateHighlights()
                 addHighlightToNPC(npc)
                 addESPTextToNPC(npc)
                 updateESPText(npc)
-                local highlight = npc:FindFirstChild("HighlightESP")
-                if highlight then
-                    highlight.FillColor = ESP.Color
+                local adornee = getAdorneeForNPC(npc)
+                if adornee then
+                    local box = adornee:FindFirstChild("ESPBox")
+                    if box then
+                        box.Size = adornee.Size
+                    end
                 end
             else
                 removeHighlightFromNPC(npc)

@@ -113,7 +113,7 @@ Tabs.Main:Toggle({
     end
 })
 
-Tabs.SliderTab:Slider({
+Tabs.Main:Slider({
     Title = "Tpwalk",
     Value = {
         Min = 0,
