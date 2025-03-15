@@ -126,7 +126,7 @@ Tabs.Main:Slider({
     Title = "Tpwalk",
     Value = {
         Min = 0,
-        Max = 10,
+        Max = 200,
         Default = 1,
     },
     Callback = function(value)
