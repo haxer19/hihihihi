@@ -2,6 +2,7 @@ local MovementLib = {}
 
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
 
 local player = Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
@@ -9,8 +10,7 @@ local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
 local humanoid = character:WaitForChild("Humanoid")
 
 local noclipEnabled = false
-local TpWalkSpeed = 1
-local speedMultiplier = 0.5
+local TpWalkSpeed = 0.1
 
 player.CharacterAdded:Connect(function(newCharacter)
     character = newCharacter
@@ -39,8 +39,7 @@ RunService.Heartbeat:Connect(function(deltaTime)
         local moveDirection = humanoid.MoveDirection
         if moveDirection.Magnitude > 0 then
             moveDirection = moveDirection.Unit
-            local displacement = moveDirection * TpWalkSpeed * speedMultiplier * deltaTime
-            local newPos = humanoidRootPart.Position + displacement
+            local newPos = humanoidRootPart.Position + moveDirection * TpWalkSpeed
             humanoidRootPart.CFrame = CFrame.new(newPos, newPos + moveDirection)
         end
     end
@@ -48,13 +47,15 @@ end)
 
 function MovementLib.SetNoclip(state)
     noclipEnabled = state
-    if not noclipEnabled and humanoidRootPart then
-        humanoidRootPart.CFrame = humanoidRootPart.CFrame + Vector3.new(0, 3, 0)
+    if not noclipEnabled then
+        if humanoidRootPart then
+            humanoidRootPart.CFrame = humanoidRootPart.CFrame + Vector3.new(0, 3, 0)
+        end
     end
 end
 
 function MovementLib.SetTpWalkSpeed(speed)
-    TpWalkSpeed = speed
+    TpWalkSpeed = speed * 0.1
 end
 
 function MovementLib.GetNoclip()
