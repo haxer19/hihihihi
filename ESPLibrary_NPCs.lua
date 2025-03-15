@@ -81,7 +81,7 @@ local function addESPTextToNPC(npc)
     textLabel.TextColor3 = ESP.Color
     textLabel.TextStrokeTransparency = 0
     textLabel.TextScaled = false  
-    textLabel.TextSize = 14      
+    textLabel.TextSize = 13     
     textLabel.Font = Enum.Font.SourceSansBold
     textLabel.Parent = billboard
 end

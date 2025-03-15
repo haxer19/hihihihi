@@ -33,7 +33,7 @@ local function addBoxToCharacter(player, character)
     box.Name = "ESP_Box"
     box.Adornee = hrp
     box.Parent = hrp
-    box.Color3 = Color3.fromRGB(0, 0, 255)
+    box.Color3 = Color3.fromRGB(0, 255, 0)
     box.Transparency = 0  
     box.AlwaysOnTop = true
 
@@ -83,7 +83,7 @@ local function addBillboardToCharacter(player, character)
         textLabel.TextColor3 = ESP.Color
         textLabel.TextStrokeTransparency = 0
         textLabel.TextScaled = false
-        textLabel.TextSize = 12  
+        textLabel.TextSize = 13  
         textLabel.Font = Enum.Font.SourceSans
         textLabel.Parent = billboard
     end
