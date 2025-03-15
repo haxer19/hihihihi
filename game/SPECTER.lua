@@ -93,7 +93,7 @@ Tabs.Main:Toggle({
 })
 
 Tabs.Main:Section({ Title = "Others" })
-Tabs.ToggleTab:Toggle({
+Tabs.Main:Toggle({
     Title = "Enable FullBright",
     Default = false,
     Callback = function(state)
