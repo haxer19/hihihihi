@@ -16,13 +16,12 @@ ESP.Enabled = false
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local Workspace = game:GetService("Workspace")
-
 local function getCharacter(player)
     return Workspace:FindFirstChild(player.Name)
 end
 
 local function addHighlightToCharacter(player, character)
-    if player == Players.LocalPlayer then return end  
+    if player == Players.LocalPlayer then return end 
     local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
     if humanoidRootPart and not humanoidRootPart:FindFirstChild("Highlight") then
         local highlight = Instance.new("Highlight")
@@ -46,14 +45,76 @@ local function removeHighlightFromCharacter(character)
     end
 end
 
+local function addBillboardToCharacter(player, character)
+    if player == Players.LocalPlayer then return end
+    local head = character:FindFirstChild("Head")
+    if head and not head:FindFirstChild("ESP_Billboard") then
+        local billboard = Instance.new("BillboardGui")
+        billboard.Name = "ESP_Billboard"
+        billboard.Adornee = head
+        billboard.Parent = head
+        billboard.Size = UDim2.new(0, 200, 0, 50)
+        billboard.StudsOffset = Vector3.new(0, 2, 0)
+        billboard.AlwaysOnTop = true
+
+        local textLabel = Instance.new("TextLabel")
+        textLabel.Name = "ESP_TextLabel"
+        textLabel.BackgroundTransparency = 1
+        textLabel.Size = UDim2.new(1, 0, 1, 0)
+        textLabel.TextColor3 = ESP.Color
+        textLabel.TextStrokeTransparency = 0
+        textLabel.TextScaled = true
+        textLabel.Font = Enum.Font.SourceSansBold
+        textLabel.Parent = billboard
+    end
+end
+
+local function removeBillboardFromCharacter(character)
+    local head = character:FindFirstChild("Head")
+    if head then
+        local billboard = head:FindFirstChild("ESP_Billboard")
+        if billboard then
+            billboard:Destroy()
+        end
+    end
+end
+
+local function updateBillboard(player, character)
+    if player == Players.LocalPlayer then return end
+    local head = character:FindFirstChild("Head")
+    if head then
+        local billboard = head:FindFirstChild("ESP_Billboard")
+        if billboard then
+            local textLabel = billboard:FindFirstChild("ESP_TextLabel")
+            if textLabel then
+                local displayName = player.DisplayName or player.Name
+                local distance = 0
+                local localCharacter = getCharacter(Players.LocalPlayer)
+                if localCharacter then
+                    local localHumanoidRoot = localCharacter:FindFirstChild("HumanoidRootPart")
+                    local targetHumanoidRoot = character:FindFirstChild("HumanoidRootPart")
+                    if localHumanoidRoot and targetHumanoidRoot then
+                        distance = (localHumanoidRoot.Position - targetHumanoidRoot.Position).Magnitude
+                    end
+                end
+                textLabel.Text = string.format("%s - %.1f studs", displayName, distance)
+                textLabel.TextColor3 = ESP.Color
+            end
+        end
+    end
+end
+
 local function updateHighlights()
     for _, player in pairs(Players:GetPlayers()) do
         local character = getCharacter(player)
         if character then
             if ESP.Enabled then
                 addHighlightToCharacter(player, character)
+                addBillboardToCharacter(player, character)
+                updateBillboard(player, character)
             else
                 removeHighlightFromCharacter(character)
+                removeBillboardFromCharacter(character)
             end
         end
     end
@@ -67,6 +128,7 @@ Players.PlayerAdded:Connect(function(player)
     player.CharacterAdded:Connect(function(character)
         if ESP.Enabled then
             addHighlightToCharacter(player, character)
+            addBillboardToCharacter(player, character)
         end
     end)
 end)
@@ -75,6 +137,7 @@ Players.PlayerRemoving:Connect(function(player)
     local character = player.Character
     if character then
         removeHighlightFromCharacter(character)
+        removeBillboardFromCharacter(character)
     end
 end)
 

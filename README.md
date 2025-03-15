@@ -4,6 +4,7 @@
 - Mage Battlegrounds
 - Universal Battlegrounds
 - Shonen Piece
+- SPECTER
 
 *Danh sách có thể cập nhật thêm trong tương lai!*
 ---
