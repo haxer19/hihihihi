@@ -112,7 +112,6 @@ Tabs.Main:Toggle({
         MovementLib.SetNoclip(state)
     end
 })
-
 Tabs.Main:Slider({
     Title = "Tpwalk",
     Value = {
