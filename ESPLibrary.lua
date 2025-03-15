@@ -1,6 +1,7 @@
 local ESP = {}
 
 ESP.Colors = {
+    White = Color3.fromRGB(255, 255, 255),
     Green = Color3.fromRGB(0, 255, 0),
     Blue = Color3.fromRGB(0, 0, 255),
     Red = Color3.fromRGB(255, 0, 0),

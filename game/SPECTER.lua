@@ -45,16 +45,23 @@ Window:EditOpenButton({
 })
 
 local Tabs = {
+    Info = Window:Tab({ Title = "Info", Icon = "info" }),
     Main = Window:Tab({ Title = "Main", Icon = "rbxassetid://7733960981" }),
+    Other = Window:Tab({ Title = "Other", Icon = "rbxassetid://7743876054" }),
 }
 
 Window:SelectTab(1)
 
+Tabs.Info:Paragraph({
+    Title = "V1.1.0",
+    Desc = "Đang phát triển.",
+})
+
 Tabs.Main:Section({ Title = "Esp - Players" })
 Tabs.Main:Dropdown({
     Title = "Esp Aura",
-    Values = { "Green", "Blue", "Red", "Yellow", "Orange", "Purple" },
-    Value = "Green",
+    Values = { "White", "Green", "Blue", "Red", "Yellow", "Orange", "Purple" },
+    Value = "",
     Callback = function(option)
         ESP_P:SetColor(ESP.Colors[option])
     end
@@ -75,8 +82,8 @@ Tabs.Main:Toggle({
 Tabs.Main:Section({ Title = "Esp - NPC" })
 Tabs.Main:Dropdown({
     Title = "Esp Aura",
-    Values = { "Green", "Blue", "Red", "Yellow", "Orange", "Purple" },
-    Value = "Green",
+    Values = { "White", "Green", "Blue", "Red", "Yellow", "Orange", "Purple" },
+    Value = "",
     Callback = function(option)
         ESP_N:SetColor(ESP_N.Colors[option])
     end
@@ -94,15 +101,16 @@ Tabs.Main:Toggle({
     end
 })
 
-Tabs.Main:Section({ Title = "Others" })
-Tabs.Main:Button({
+Tabs.Other:Section({ Title = "Detected" })
+Tabs.Other:Button({
     Title = "Enable Detected",
     Desc = "Thông báo",
     Callback = function() 
         loadstring(game:HttpGet("https://raw.githubusercontent.com/haxer19/hihihihi/main/n_specter"))()
     end
 })
-Tabs.Main:Toggle({
+Tabs.Other:Section({ Title = "FullBright" })
+Tabs.Other:Toggle({
     Title = "Enable FullBright",
     Default = false,
     Callback = function(state)
@@ -114,10 +122,11 @@ Tabs.Main:Toggle({
     end
 })
 
+Tabs.Other:Section({ Title = "Noclip" })
 local nc = false
 local ncCon
 
-Tabs.Main:Toggle({
+Tabs.Other:Toggle({
     Title = "Enable Noclip", 
     Default = false,
     Callback = function(state)
@@ -147,11 +156,11 @@ Tabs.Main:Toggle({
         end
     end
 })
-
+Tabs.Other:Section({ Title = "Tpwalk" })
 local tpwalking = false
 local tpwalkspeed = 10
 
-Tabs.Main:Toggle({
+Tabs.Other:Toggle({
     Title = "Enable Tpwalk",
     Default = false,
     Callback = function(state)
@@ -170,7 +179,7 @@ Tabs.Main:Toggle({
     end
 })
 
-Tabs.Main:Slider({
+Tabs.Other:Slider({
     Title = "Tpwalk Speed",
     Value = {
         Min = 0,
