@@ -19,6 +19,7 @@ local WindUI = loadstring(game:HttpGet("https://tree-hub.vercel.app/api/UI/WindU
 local ESP_P = loadstring(game:HttpGet("https://raw.githubusercontent.com/haxer19/hihihihi/main/ESPLibrary.lua"))()
 local ESP_N = loadstring(game:HttpGet("https://raw.githubusercontent.com/haxer19/hihihihi/main/ESPLibrary_NPCs.lua"))()
 local MovementLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/haxer19/hihihihi/main/MovementLib.lua"))()
+local fb = loadstring(game:HttpGet("https://raw.githubusercontent.com/haxer19/hihihihi/main/FullBrightLib.lua"))()
 
 local Window = WindUI:CreateWindow({
     Title = "SPECTER | Username: " .. username, 
@@ -92,6 +93,17 @@ Tabs.Main:Toggle({
 })
 
 Tabs.Main:Section({ Title = "Others" })
+Tabs.ToggleTab:Toggle({
+    Title = "Enable FullBright",
+    Default = false,
+    Callback = function(state)
+        if state then
+            fb.enable()
+        else
+            fb.disable()
+        end
+    end
+})
 
 Tabs.Main:Toggle({
     Title = "Enable Noclip",

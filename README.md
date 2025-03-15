@@ -4,7 +4,6 @@
 - Mage Battlegrounds
 - Universal Battlegrounds
 - Shonen Piece
-- SPECTER
 
 *Danh sách có thể cập nhật thêm trong tương lai!*
 ---
@@ -14,3 +13,8 @@
 loadstring(game:HttpGet("https://raw.githubusercontent.com/haxer19/hihihihi/main/SynHaX"))() 
 ```
 
+## Khác:
+- SPECTER:
+```
+loadstring(game:HttpGet("https://raw.githubusercontent.com/haxer19/hihihihi/main/game/SPECTER.lua"))() 
+```
