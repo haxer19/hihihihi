@@ -2,7 +2,6 @@ local MovementLib = {}
 
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
-local UserInputService = game:GetService("UserInputService")
 
 local player = Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
@@ -11,6 +10,7 @@ local humanoid = character:WaitForChild("Humanoid")
 
 local noclipEnabled = false
 local TpWalkSpeed = 1
+local speedMultiplier = 50
 
 player.CharacterAdded:Connect(function(newCharacter)
     character = newCharacter
@@ -34,12 +34,13 @@ RunService.Stepped:Connect(function()
     end
 end)
 
-RunService.Heartbeat:Connect(function()
+RunService.Heartbeat:Connect(function(deltaTime)
     if character and humanoidRootPart and humanoid then
         local moveDirection = humanoid.MoveDirection
         if moveDirection.Magnitude > 0 then
             moveDirection = moveDirection.Unit
-            local newPos = humanoidRootPart.Position + moveDirection * TpWalkSpeed
+            local displacement = moveDirection * TpWalkSpeed * speedMultiplier * deltaTime
+            local newPos = humanoidRootPart.Position + displacement
             humanoidRootPart.CFrame = CFrame.new(newPos, newPos + moveDirection)
         end
     end
