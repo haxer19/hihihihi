@@ -18,7 +18,6 @@ local username = game:GetService("Players").LocalPlayer.Name
 local WindUI = loadstring(game:HttpGet("https://tree-hub.vercel.app/api/UI/WindUI"))()
 local ESP_P = loadstring(game:HttpGet("https://raw.githubusercontent.com/haxer19/hihihihi/main/ESPLibrary.lua"))()
 local ESP_N = loadstring(game:HttpGet("https://raw.githubusercontent.com/haxer19/hihihihi/main/ESPLibrary_NPCs.lua"))()
-local MovementLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/haxer19/hihihihi/main/MovementLib.lua"))()
 local fb = loadstring(game:HttpGet("https://raw.githubusercontent.com/haxer19/hihihihi/main/FullBrightLib.lua"))()
 
 
@@ -115,21 +114,70 @@ Tabs.Main:Toggle({
     end
 })
 
+local nc = false
+local ncCon
+
 Tabs.Main:Toggle({
-    Title = "Enable Noclip",
+    Title = "Enable Noclip", 
     Default = false,
     Callback = function(state)
-        MovementLib.SetNoclip(state)
+        nc = state
+        if nc then
+            ncCon = game:GetService("RunService").Stepped:Connect(function()
+                local pl = game.Players.LocalPlayer
+                local ch = pl.Character or pl.CharacterAdded:Wait()
+                for _, p in ipairs(ch:GetDescendants()) do
+                    if p:IsA("BasePart") then
+                        p.CanCollide = false
+                    end
+                end
+            end)
+        else
+            if ncCon then
+                ncCon:Disconnect()
+                ncCon = nil
+            end
+            local pl = game.Players.LocalPlayer
+            local ch = pl.Character or pl.CharacterAdded:Wait()
+            for _, p in ipairs(ch:GetDescendants()) do
+                if p:IsA("BasePart") then
+                    p.CanCollide = true
+                end
+            end
+        end
     end
 })
+
+local tpwalking = false
+local tpwalkspeed = 10
+
+Tabs.Main:Toggle({
+    Title = "Enable Tpwalk",
+    Default = false,
+    Callback = function(state)
+        tpwalking = state
+        if not state then return end
+        local RunService = game:GetService("RunService")
+        local player = game.Players.LocalPlayer
+        local chr = player.Character or player.CharacterAdded:Wait()
+        local hum = chr:FindFirstChildWhichIsA("Humanoid")
+        while tpwalking and chr and hum and hum.Parent do
+            local delta = RunService.Heartbeat:Wait()
+            if hum.MoveDirection.Magnitude > 0 then
+                chr:TranslateBy(hum.MoveDirection * delta * tpwalkspeed)
+            end
+        end
+    end
+})
+
 Tabs.Main:Slider({
-    Title = "Tpwalk",
+    Title = "Tpwalk Speed",
     Value = {
         Min = 0,
         Max = 200,
-        Default = 1,
+        Default = 1, 
     },
     Callback = function(value)
-        MovementLib.SetTpWalkSpeed(value)
+        tpwalkspeed = value
     end
 })
