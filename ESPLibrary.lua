@@ -22,7 +22,7 @@ local function getCharacter(player)
 end
 
 local function addHighlightToCharacter(player, character)
-    if player == Players.LocalPlayer then return end  -- Bỏ qua local player
+    if player == Players.LocalPlayer then return end  
     local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
     if humanoidRootPart and not humanoidRootPart:FindFirstChild("Highlight") then
         local highlight = Instance.new("Highlight")
