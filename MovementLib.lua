@@ -10,7 +10,7 @@ local humanoid = character:WaitForChild("Humanoid")
 
 local noclipEnabled = false
 local TpWalkSpeed = 1
-local speedMultiplier = 49
+local speedMultiplier = 5
 
 player.CharacterAdded:Connect(function(newCharacter)
     character = newCharacter
