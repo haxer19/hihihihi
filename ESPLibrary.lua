@@ -1,7 +1,6 @@
 local ESP = {}
 
 ESP.Colors = {
-    White = Color3.fromRGB(255, 255, 255),
     Green = Color3.fromRGB(0, 255, 0),
     Blue = Color3.fromRGB(0, 0, 255),
     Red = Color3.fromRGB(255, 0, 0),
@@ -9,9 +8,7 @@ ESP.Colors = {
     Orange = Color3.fromRGB(255, 165, 0),
     Purple = Color3.fromRGB(128, 0, 128)
 }
-
-ESP.Color = ESP.Colors.White
-
+ESP.Color = ESP.Colors.Purple
 ESP.Enabled = false
 
 local Players = game:GetService("Players")
@@ -22,45 +19,24 @@ local function getCharacter(player)
     return Workspace:FindFirstChild(player.Name)
 end
 
-local function addBoxToCharacter(player, character)
-    if player == Players.LocalPlayer then return end  
-    if character:FindFirstChild("ESP_Box") then return end
-
-    local hrp = character:FindFirstChild("HumanoidRootPart")
-    if not hrp then return end
-
-    local box = Instance.new("BoxHandleAdornment")
-    box.Name = "ESP_Box"
-    box.Adornee = hrp
-    box.Parent = hrp
-    box.Color3 = Color3.fromRGB(0, 255, 0)
-    box.Transparency = 0  
-    box.AlwaysOnTop = true
-
-    local cframe, size = character:GetBoundingBox()
-    box.CFrame = cframe
-    box.Size = size
-end
-
-local function updateBoxToCharacter(player, character)
+local function addHighlightToCharacter(player, character)
     if player == Players.LocalPlayer then return end
-    local hrp = character:FindFirstChild("HumanoidRootPart")
-    if not hrp then return end
-    local box = hrp:FindFirstChild("ESP_Box")
-    if box and box:IsA("BoxHandleAdornment") then
-        local cframe, size = character:GetBoundingBox()
-        box.CFrame = cframe
-        box.Size = size
-    end
+    if character:FindFirstChild("Highlight") then return end
+    local highlight = Instance.new("Highlight")
+    highlight.Name = "Highlight"
+    highlight.Adornee = character
+    highlight.Parent = character
+    highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+    highlight.FillColor = ESP.Color
+    highlight.OutlineColor = ESP.Color
+    highlight.FillTransparency = 0.7
+    highlight.OutlineTransparency = 0
 end
 
-local function removeBoxFromCharacter(character)
-    local hrp = character:FindFirstChild("HumanoidRootPart")
-    if hrp then
-        local box = hrp:FindFirstChild("ESP_Box")
-        if box then
-            box:Destroy()
-        end
+local function removeHighlightFromCharacter(character)
+    local highlight = character:FindFirstChild("Highlight")
+    if highlight then
+        highlight:Destroy()
     end
 end
 
@@ -72,7 +48,7 @@ local function addBillboardToCharacter(player, character)
         billboard.Name = "ESP_Billboard"
         billboard.Adornee = head
         billboard.Parent = head
-        billboard.Size = UDim2.new(0, 150, 0, 30)
+        billboard.Size = UDim2.new(0, 100, 0, 30)
         billboard.StudsOffset = Vector3.new(0, 2, 0)
         billboard.AlwaysOnTop = true
 
@@ -83,9 +59,19 @@ local function addBillboardToCharacter(player, character)
         textLabel.TextColor3 = ESP.Color
         textLabel.TextStrokeTransparency = 0
         textLabel.TextScaled = false
-        textLabel.TextSize = 13  
-        textLabel.Font = Enum.Font.SourceSans
+        textLabel.TextSize = 14
+        textLabel.Font = Enum.Font.SourceSansBold
         textLabel.Parent = billboard
+    end
+end
+
+local function removeBillboardFromCharacter(character)
+    local head = character:FindFirstChild("Head")
+    if head then
+        local billboard = head:FindFirstChild("ESP_Billboard")
+        if billboard then
+            billboard:Destroy()
+        end
     end
 end
 
@@ -101,10 +87,10 @@ local function updateBillboard(player, character)
                 local distance = 0
                 local localCharacter = getCharacter(Players.LocalPlayer)
                 if localCharacter then
-                    local localHRP = localCharacter:FindFirstChild("HumanoidRootPart")
-                    local targetHRP = character:FindFirstChild("HumanoidRootPart")
-                    if localHRP and targetHRP then
-                        distance = (localHRP.Position - targetHRP.Position).Magnitude
+                    local localHumanoidRoot = localCharacter:FindFirstChild("HumanoidRootPart")
+                    local targetHumanoidRoot = character:FindFirstChild("HumanoidRootPart")
+                    if localHumanoidRoot and targetHumanoidRoot then
+                        distance = (localHumanoidRoot.Position - targetHumanoidRoot.Position).Magnitude
                     end
                 end
                 textLabel.Text = string.format("%s - %.1f studs", displayName, distance)
@@ -114,27 +100,16 @@ local function updateBillboard(player, character)
     end
 end
 
-local function removeBillboardFromCharacter(character)
-    local head = character:FindFirstChild("Head")
-    if head then
-        local billboard = head:FindFirstChild("ESP_Billboard")
-        if billboard then
-            billboard:Destroy()
-        end
-    end
-end
-
-local function updateESP()
+local function updateHighlights()
     for _, player in pairs(Players:GetPlayers()) do
         local character = getCharacter(player)
         if character then
             if ESP.Enabled then
-                addBoxToCharacter(player, character)
+                addHighlightToCharacter(player, character)
                 addBillboardToCharacter(player, character)
-                updateBoxToCharacter(player, character)
                 updateBillboard(player, character)
             else
-                removeBoxFromCharacter(character)
+                removeHighlightFromCharacter(character)
                 removeBillboardFromCharacter(character)
             end
         end
@@ -142,13 +117,13 @@ local function updateESP()
 end
 
 RunService.RenderStepped:Connect(function()
-    updateESP()
+    updateHighlights()
 end)
 
 Players.PlayerAdded:Connect(function(player)
     player.CharacterAdded:Connect(function(character)
         if ESP.Enabled then
-            addBoxToCharacter(player, character)
+            addHighlightToCharacter(player, character)
             addBillboardToCharacter(player, character)
         end
     end)
@@ -157,29 +132,29 @@ end)
 Players.PlayerRemoving:Connect(function(player)
     local character = player.Character
     if character then
-        removeBoxFromCharacter(character)
+        removeHighlightFromCharacter(character)
         removeBillboardFromCharacter(character)
     end
 end)
 
 function ESP:Toggle()
     self.Enabled = not self.Enabled
-    updateESP()
+    updateHighlights()
 end
 
 function ESP:Enable()
     self.Enabled = true
-    updateESP()
+    updateHighlights()
 end
 
 function ESP:Disable()
     self.Enabled = false
-    updateESP()
+    updateHighlights()
 end
 
 function ESP:SetColor(newColor)
     self.Color = newColor
-    updateESP()
+    updateHighlights()
 end
 
 return ESP

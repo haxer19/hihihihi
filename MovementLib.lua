@@ -39,7 +39,7 @@ RunService.Heartbeat:Connect(function(deltaTime)
         local moveDirection = humanoid.MoveDirection
         if moveDirection.Magnitude > 0 then
             moveDirection = moveDirection.Unit
-            local newPos = humanoidRootPart.Position + moveDirection * TpWalkSpeed
+            local newPos = humanoidRootPart.Position + moveDirection * TpWalkSpeed * deltaTime
             humanoidRootPart.CFrame = CFrame.new(newPos, newPos + moveDirection)
         end
     end
@@ -47,10 +47,8 @@ end)
 
 function MovementLib.SetNoclip(state)
     noclipEnabled = state
-    if not noclipEnabled then
-        if humanoidRootPart then
-            humanoidRootPart.CFrame = humanoidRootPart.CFrame + Vector3.new(0, 3, 0)
-        end
+    if not noclipEnabled and humanoidRootPart then
+        humanoidRootPart.CFrame = humanoidRootPart.CFrame + Vector3.new(0, 3, 0)
     end
 end
 
