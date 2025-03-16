@@ -1,3 +1,11 @@
+function BlockOutput()
+    print = function(...) end
+    warn = function(...) end
+    error = function(...) end
+end
+
+BlockOutput()
+
 function getopsize()
     local screenSize = workspace.CurrentCamera.ViewportSize
     if screenSize.X <= 720 then
@@ -122,17 +130,13 @@ Tabs.Other:Button({
                     Content = "EMF 5 Detected",
                     Duration = 5,
                 })
-            end
-        
-            if GOrbs:FindFirstChild("Orb") then
+            elseif GOrbs:FindFirstChild("Orb") then
                 WindUI:Notify({
                     Title = "Thông Báo",
                     Content = "Ghost Orbs Detected",
                     Duration = 5,
                 })
-            end
-        
-            if Fingerprint:FindFirstChild("Fingerprint") then
+            elseif Fingerprint:FindFirstChild("Fingerprint") then
                 WindUI:Notify({
                     Title = "Thông Báo",
                     Content = "Fingerprints Detected",
