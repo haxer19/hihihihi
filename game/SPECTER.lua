@@ -59,9 +59,9 @@ Tabs.Info:Paragraph({
 
 Tabs.Main:Section({ Title = "Esp - Players" })
 Tabs.Main:Dropdown({
-    Title = "Esp Aura",
+    Title = "Aura Color",
     Values = { "White", "Green", "Blue", "Red", "Yellow", "Orange", "Purple" },
-    Value = "Red",
+    Value = "",
     Callback = function(option)
         ESP_P:SetColor(option)
     end
@@ -81,7 +81,7 @@ Tabs.Main:Toggle({
 
 Tabs.Main:Section({ Title = "Esp - NPC" })
 Tabs.Main:Dropdown({
-    Title = "Esp Aura",
+    Title = "Aura Color",
     Values = { "White", "Green", "Blue", "Red", "Yellow", "Orange", "Purple" },
     Value = "",
     Callback = function(option)

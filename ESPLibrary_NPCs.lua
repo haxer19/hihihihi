@@ -41,7 +41,7 @@ local function addHighlightToNPC(npc)
     box.Adornee = adornee
     box.Parent = adornee
     box.AlwaysOnTop = true
-    box.Color3 = Color3.fromRGB(0, 0, 255) 
+    box.Color3 = ESP.Color  
     box.Transparency = 0  
     box.LineThickness = 2
     box.ZIndex = 10
@@ -81,7 +81,7 @@ local function addESPTextToNPC(npc)
     textLabel.TextColor3 = ESP.Color
     textLabel.TextStrokeTransparency = 0
     textLabel.TextScaled = false  
-    textLabel.TextSize = 13     
+    textLabel.TextSize = 13    
     textLabel.Font = Enum.Font.SourceSansBold
     textLabel.Parent = billboard
 end
@@ -107,7 +107,7 @@ local function updateESPText(npc)
             else
                 textLabel.Text = npc.Name
             end
-            textLabel.TextColor3 = ESP.Color
+            textLabel.TextColor3 = ESP.Color  
         end
     end
 end
@@ -123,6 +123,7 @@ local function updateHighlights()
                 if adornee then
                     local box = adornee:FindFirstChild("ESPBox")
                     if box then
+                        box.Color3 = ESP.Color
                         box.Size = adornee.Size
                     end
                 end
@@ -171,7 +172,7 @@ end
 
 function ESP:SetColor(newColor)
     self.Color = newColor
-    updateHighlights()
+    updateHighlights()  
 end
 
 return ESP
