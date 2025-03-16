@@ -154,8 +154,10 @@ function ESP:Disable()
 end
 
 function ESP:SetColor(newColor)
-    self.Color = newColor
-    updateHighlights()
+    if self.Colors[newColor] then
+        self.Color = self.Colors[newColor]
+        updateHighlights()
+    end
 end
 
 return ESP

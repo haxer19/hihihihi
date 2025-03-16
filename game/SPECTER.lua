@@ -61,9 +61,9 @@ Tabs.Main:Section({ Title = "Esp - Players" })
 Tabs.Main:Dropdown({
     Title = "Esp Aura",
     Values = { "White", "Green", "Blue", "Red", "Yellow", "Orange", "Purple" },
-    Value = "",
+    Value = "Red",
     Callback = function(option)
-        ESP_P:SetColor(ESP.Colors[option])
+        ESP_P:SetColor(option)
     end
 })
 
@@ -105,8 +105,41 @@ Tabs.Other:Section({ Title = "Detected" })
 Tabs.Other:Button({
     Title = "Enable Detected",
     Desc = "Thông báo",
-    Callback = function() 
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/haxer19/hihihihi/main/n_specter"))()
+    Callback = function()
+        WindUI:Notify({
+            Title = "Trạng thái",
+            Content = "Thông báo đã bật.",
+            Duration = 5,
+        })
+        while wait(5) do
+            local EMF = workspace.Dynamic.Evidence.EMF
+            local GOrbs = workspace.Dynamic.Evidence.Orbs
+            local Fingerprint = workspace.Dynamic.Evidence.Fingerprints
+        
+            if EMF:FindFirstChild("EMF5") then
+                WindUI:Notify({
+                    Title = "Thông Báo",
+                    Content = "EMF 5 Detected",
+                    Duration = 5,
+                })
+            end
+        
+            if GOrbs:FindFirstChild("Orb") then
+                WindUI:Notify({
+                    Title = "Thông Báo",
+                    Content = "Ghost Orbs Detected",
+                    Duration = 5,
+                })
+            end
+        
+            if Fingerprint:FindFirstChild("Fingerprint") then
+                WindUI:Notify({
+                    Title = "Thông Báo",
+                    Content = "Fingerprints Detected",
+                    Duration = 5,
+                })
+            end
+        end        
     end
 })
 Tabs.Other:Section({ Title = "FullBright" })
