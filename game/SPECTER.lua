@@ -110,42 +110,53 @@ Tabs.Main:Toggle({
 })
 
 Tabs.Other:Section({ Title = "Detected" })
-Tabs.Other:Button({
+local detectEnabled = false 
+
+Tabs.Other:Toggle({
     Title = "Enable Detected",
-    Desc = "Thông báo",
-    Callback = function()
-        WindUI:Notify({
-            Title = "Trạng thái",
-            Content = "Thông báo đã bật.",
-            Duration = 5,
-        })
-        while wait(5) do
-            local EMF = workspace.Dynamic.Evidence.EMF
-            local GOrbs = workspace.Dynamic.Evidence.Orbs
-            local Fingerprint = workspace.Dynamic.Evidence.Fingerprints
+    Default = false,
+    Callback = function(state)
+        detectEnabled = state
         
-            if EMF:FindFirstChild("EMF5") then
-                WindUI:Notify({
-                    Title = "Thông Báo",
-                    Content = "EMF 5 Detected",
-                    Duration = 5,
-                })
-            elseif GOrbs:FindFirstChild("Orb") then
-                WindUI:Notify({
-                    Title = "Thông Báo",
-                    Content = "Ghost Orbs Detected",
-                    Duration = 5,
-                })
-            elseif Fingerprint:FindFirstChild("Fingerprint") then
-                WindUI:Notify({
-                    Title = "Thông Báo",
-                    Content = "Fingerprints Detected",
-                    Duration = 5,
-                })
-            end
-        end        
+        if state then
+            WindUI:Notify({
+                Title = "Trạng thái",
+                Content = "Thông báo đã bật.",
+                Duration = 5,
+            })
+            
+            task.spawn(function()
+                while detectEnabled do
+                    task.wait(5)
+                    local EMF = workspace.Dynamic.Evidence.EMF
+                    local GOrbs = workspace.Dynamic.Evidence.Orbs
+                    local Fingerprint = workspace.Dynamic.Evidence.Fingerprints
+
+                    if EMF and EMF:FindFirstChild("EMF5") then
+                        WindUI:Notify({
+                            Title = "Thông Báo",
+                            Content = "EMF 5 Detected",
+                            Duration = 5,
+                        })
+                    elseif GOrbs and GOrbs:FindFirstChild("Orb") then
+                        WindUI:Notify({
+                            Title = "Thông Báo",
+                            Content = "Ghost Orbs Detected",
+                            Duration = 5,
+                        })
+                    elseif Fingerprint and Fingerprint:FindFirstChild("Fingerprint") then
+                        WindUI:Notify({
+                            Title = "Thông Báo",
+                            Content = "Fingerprints Detected",
+                            Duration = 5,
+                        })
+                    end
+                end
+            end)
+        end
     end
 })
+
 Tabs.Other:Section({ Title = "FullBright" })
 Tabs.Other:Toggle({
     Title = "Enable FullBright",
