@@ -387,7 +387,6 @@ local Anim = Humanoid:LoadAnimation(AnimAnim)
 
 local startTime = 0
 
-
 Anim:Play()
 
 Anim:AdjustSpeed(5)
