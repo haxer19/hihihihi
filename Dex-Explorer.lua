@@ -1079,7 +1079,7 @@ local function main()
       end
     end})
 
-    context:Register("GROUP",{Name = "กรุ๊ป", IconMap = Explorer.MiscIcons, Icon = "Group", DisabledIcon = "Group_Disabled", Shortcut = "Ctrl+G", OnClick = function()
+    context:Register("GROUP",{Name = "Group", IconMap = Explorer.MiscIcons, Icon = "Group", DisabledIcon = "Group_Disabled", Shortcut = "Ctrl+G", OnClick = function()
       local sList = selection.List
       if #sList == 0 then return end
       
