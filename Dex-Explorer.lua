@@ -1072,7 +1072,7 @@ local function main()
       selection:Clear()
     end})
 
-    context:Register("RENAME",{Name = "Group", IconMap = Explorer.MiscIcons, Icon = "Rename", DisabledIcon = "Rename_Disabled", Shortcut = "F2", OnClick = function()
+    context:Register("RENAME",{Name = "Rename", IconMap = Explorer.MiscIcons, Icon = "Rename", DisabledIcon = "Rename_Disabled", Shortcut = "F2", OnClick = function()
       local sList = selection.List
       if sList[1] then
         Explorer.SetRenamingNode(sList[1])
