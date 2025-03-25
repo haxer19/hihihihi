@@ -2188,7 +2188,7 @@ local function main()
 
     local window = Lib.Window.new()
     Explorer.Window = window
-    window:SetTitle("Properties")
+    window:SetTitle("Explorer")
     window.GuiElems.Line.Position = UDim2.new(0,0,0,22)
 
     Explorer.InitEntryTemplate()
@@ -4135,7 +4135,7 @@ local function main()
     -- Init window
     window = Lib.Window.new()
     Properties.Window = window
-    window:SetTitle("ข้อมูลไฟล์")
+    window:SetTitle("Properties")
 
     toolBar = guiItems.ToolBar
     propsFrame = guiItems.List
@@ -11033,14 +11033,14 @@ Main = (function()
       {8,"Frame",{BackgroundColor3=Color3.new(0.20392157137394,0.20392157137394,0.20392157137394),BorderSizePixel=0,Name="ProgressBar",Parent={3},Position=UDim2.new(0,110,0,145),Size=UDim2.new(0,0,0,4),}},
       {9,"Frame",{BackgroundColor3=Color3.new(0.2392156869173,0.56078433990479,0.86274510622025),BorderSizePixel=0,Name="Bar",Parent={8},Size=UDim2.new(0,0,1,0),}},
       {10,"ImageLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Image="rbxassetid://2764171053",ImageColor3=Color3.new(0.17647059261799,0.17647059261799,0.17647059261799),Parent={8},ScaleType=1,Size=UDim2.new(1,0,1,0),SliceCenter=Rect.new(2,2,254,254),}},
-      {11,"TextLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Font=3,Name="Creator",Parent={2},Position=UDim2.new(1,-110,1,-20),Size=UDim2.new(0,105,0,20),Text="darkdex-occho",TextColor3=Color3.new(1,1,1),TextSize=14,TextXAlignment=1,}},
+      {11,"TextLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Font=3,Name="Creator",Parent={2},Position=UDim2.new(1,-105,1,-22),Size=UDim2.new(0,100,0,20),Text="darkdex-occho",TextColor3=Color3.new(1,1,1),TextSize=14,TextXAlignment=1,}},
       {12,"UIGradient",{Parent={11},Transparency=NumberSequence.new({NumberSequenceKeypoint.new(0,1,0),NumberSequenceKeypoint.new(1,1,0),}),}},
-      {13,"TextLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Font=3,Name="Version",Parent={2},Position=UDim2.new(1,-110,1,-35),Size=UDim2.new(0,105,0,20),Text=Main.Version,TextColor3=Color3.new(1,1,1),TextSize=14,TextXAlignment=1,}},
+      {13,"TextLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Font=3,Name="Version",Parent={2},Position=UDim2.new(1,-105,1,-37),Size=UDim2.new(0,100,0,20),Text=Main.Version,TextColor3=Color3.new(1,1,1),TextSize=14,TextXAlignment=1,}},
       {14,"UIGradient",{Parent={13},Transparency=NumberSequence.new({NumberSequenceKeypoint.new(0,1,0),NumberSequenceKeypoint.new(1,1,0),}),}},
       {15,"ImageLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,BorderSizePixel=0,Image="rbxassetid://1427967925",Name="Outlines",Parent={2},Position=UDim2.new(0,-5,0,-5),ScaleType=1,Size=UDim2.new(1,10,1,10),SliceCenter=Rect.new(6,6,25,25),TileSize=UDim2.new(0,20,0,20),}},
       {16,"UIGradient",{Parent={15},Rotation=-30,Transparency=NumberSequence.new({NumberSequenceKeypoint.new(0,1,0),NumberSequenceKeypoint.new(1,1,0),}),}},
       {17,"UIGradient",{Parent={2},Rotation=-30,Transparency=NumberSequence.new({NumberSequenceKeypoint.new(0,1,0),NumberSequenceKeypoint.new(1,1,0),}),}},
-      {18,"ImageLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Image="rbxassetid://74710782821172",Name="CreatorIcon",Parent={2},Position=UDim2.new(1,-130,1,-20),Size=UDim2.new(0,16,0,16),}}, -- Thêm icon thu nhỏ
+      {18,"ImageLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Image="rbxassetid://74710782821172",Name="CreatorIcon",Parent={2},Position=UDim2.new(1,-130,1,-24),Size=UDim2.new(0,20,0,20),}},
     })
     Main.ShowGui(gui)
     local backGradient = gui.Main.UIGradient
