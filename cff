@@ -1,0 +1,162 @@
+local WindUI = loadstring(game:HttpGet("https://tree-hub.vercel.app/api/UI/WindUI"))()
+
+function getopsize()
+    local screenSize = workspace.CurrentCamera.ViewportSize
+    if screenSize.X <= 720 then
+        return UDim2.fromOffset(240, 180)
+    elseif screenSize.X <= 1080 then
+        return UDim2.fromOffset(360, 280)
+    else
+        return UDim2.fromOffset(480, 360)
+    end
+end
+
+local Window = WindUI:CreateWindow({
+    Title = "Game Tools | SynHaX",
+    Icon = "rbxassetid://74835846528618",
+    Author = "Tien Thanh",
+    Folder = "gametools",
+    Size = getopsize(),
+    Transparent = true,
+    Theme = "Dark",
+    SideBarWidth = 200,
+    HasOutline = false,
+})
+
+Window:EditOpenButton({
+    Title = "Open",
+    Icon = "rbxassetid://74835846528618",
+    CornerRadius = UDim.new(0,10),
+    StrokeThickness = 2,
+    Color = ColorSequence.new(
+        Color3.fromHex("FF0F7B"),
+        Color3.fromHex("F89B29")
+    ),
+    Draggable = true,
+})
+
+local Tabs = {
+    Info = Window:Tab({Title = "Info", Icon = "info", Desc = "Thông tin về công cụ và hướng dẫn sử dụng"}),
+    Home = Window:Tab({Title = "Home", Icon = "rbxassetid://7733960981", Desc = "Trang chính với các tính năng cơ bản"}),
+    Players = Window:Tab({Title = "Players", Icon = "users", Desc = "Quản lý và xem thông tin người chơi"}),
+    Custom = Window:Tab({Title = "Custom", Icon = "star", Desc = "Tính năng tùy chỉnh"}),
+}
+
+Window:SelectTab(1)
+
+Tabs.Info:Paragraph({
+    Title = "Đang thử.",
+    Desc = "v1.0.0 - 28/03/2025",
+})
+
+Tabs.Home:Section({ Title = "Welcome" })
+Tabs.Home:Button({
+    Title = "vcllcl",
+    Desc = "",
+    Callback = function()
+        print("hi!1")
+    end
+})
+
+Tabs.Players:Section({ Title = "Player Management" })
+Tabs.Players:Paragraph({
+    Title = "Số người chơi",
+    Desc = "Hiện tại: " .. #game.Players:GetPlayers()
+})
+
+Tabs.Custom:Section({ Title = "Camera Controls" })
+Tabs.Custom:Slider({
+    Title = "Khoảng cách Camera",
+    Value = {
+        Min = 5,
+        Max = 50,
+        Default = 12,
+    },
+    Callback = function(value)
+        local player = game.Players.LocalPlayer
+        if player.Character and player.Character:FindFirstChild("Humanoid") then
+            player.Character.Humanoid.CameraOffset = Vector3.new(0, 0, value - 12)
+        end
+    end
+})
+
+Tabs.Custom:Dropdown({
+    Title = "Chọn góc nhìn",
+    Values = { "Góc nhìn thứ nhất", "Góc nhìn thứ hai", "Góc nhìn thứ ba" },
+    Value = "Góc nhìn thứ ba",
+    Callback = function(option)
+        local player = game.Players.LocalPlayer
+        local humanoid = player.Character and player.Character:FindFirstChild("Humanoid")
+        if humanoid then
+            if option == "Góc nhìn thứ nhất" then
+                humanoid.CameraMode = Enum.CameraMode.LockFirstPerson
+            else
+                humanoid.CameraMode = Enum.CameraMode.Classic
+            end
+        end
+    end
+})
+
+Tabs.Custom:Section({ Title = "Audio & Visual Custom" })
+Tabs.Custom:Slider({
+    Title = "Độ sáng trò chơi",
+    Value = {
+        Min = 0,
+        Max = 2,
+        Default = 1,
+        Float = 0.1
+    },
+    Callback = function(value)
+        game.Lighting.Brightness = value
+    end
+})
+
+Tabs.Custom:Slider({
+    Title = "Âm lượng",
+    Value = {
+        Min = 0,
+        Max = 1,
+        Default = 0.5,
+        Float = 0.1
+    },
+    Callback = function(value)
+        game.SoundService.AmbientReverb = value
+        for _, sound in pairs(game.Workspace:GetDescendants()) do
+            if sound:IsA("Sound") then
+                sound.Volume = value
+            end
+        end
+    end
+})
+
+
+Tabs.Custom:Section({ Title = "Custom Chat Spam" })
+local spamMessage = "hi!!" 
+Tabs.Custom:Paragraph({
+    Title = "Cảnh báo",
+    Desc = "Không nên quá lạm dụng vào tính năng spam chat này.",
+})
+Tabs.Custom:Input({
+    Title = "Nhập tin nhắn spam",
+    Default = "hi!!",
+    Placeholder = "Nhập nội dung để spam...",
+    Callback = function(input)
+        spamMessage = input 
+    end
+})
+
+Tabs.Custom:Toggle({
+    Title = "Spam Text Chat",
+    Default = false,
+    Callback = function(state)
+        if state then
+            spawn(function()
+                while state do
+                    local bMess = spamMessage:gsub("([^%s])", "%1") 
+                    game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(bMess, "All")
+                    wait(1) 
+                end
+            end)
+        end
+    end
+})
