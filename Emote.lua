@@ -45,7 +45,7 @@ Window:SelectTab(1)
 
 Tabs.Info:Paragraph({
     Title = "Animation | Sưu tầm", 
-    Desc = "28/03/2025", -
+    Desc = "28/03/2025", 
 })
 
 local function playAnimation(animationId)
