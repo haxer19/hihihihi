@@ -983,7 +983,7 @@ local function main()
   Explorer.InitRightClick = function()
     local context = Lib.ContextMenu.new()
     
-    context:Register("CUT",{Name = "Cut", IconMap = Explorer.MiscIcons, Icon = "Cut", DisabledIcon = "Cut_Disabled", Shortcut = "Ctrl+Z", OnClick = function()
+    context:Register("CUT",{Name = "ตัด", IconMap = Explorer.MiscIcons, Icon = "Cut", DisabledIcon = "Cut_Disabled", Shortcut = "Ctrl+Z", OnClick = function()
       local destroy,clone = game.Destroy,game.Clone
       local sList,newClipboard = selection.List,{}
       local count = 1
@@ -1000,7 +1000,7 @@ local function main()
       selection:Clear()
     end})
 
-    context:Register("COPY",{Name = "Copy", IconMap = Explorer.MiscIcons, Icon = "Copy", DisabledIcon = "Copy_Disabled", Shortcut = "Ctrl+C", OnClick = function()
+    context:Register("COPY",{Name = "คัดลอก", IconMap = Explorer.MiscIcons, Icon = "Copy", DisabledIcon = "Copy_Disabled", Shortcut = "Ctrl+C", OnClick = function()
       local clone = game.Clone
       local sList,newClipboard = selection.List,{}
       local count = 1
@@ -1015,7 +1015,7 @@ local function main()
       clipboard = newClipboard
     end})
     
-    context:Register("PASTE",{Name = "Paste", IconMap = Explorer.MiscIcons, Icon = "Paste", DisabledIcon = "Paste_Disabled", Shortcut = "Ctrl+Shift+V", OnClick = function()
+    context:Register("PASTE",{Name = "วางใส่ข้างใน", IconMap = Explorer.MiscIcons, Icon = "Paste", DisabledIcon = "Paste_Disabled", Shortcut = "Ctrl+Shift+V", OnClick = function()
       local sList = selection.List
       local newSelection = {}
       local count = 1
@@ -1039,7 +1039,7 @@ local function main()
       end
     end})
     
-    context:Register("DUPLICATE",{Name = "Duplicate", IconMap = Explorer.MiscIcons, Icon = "Copy", DisabledIcon = "Copy_Disabled", Shortcut = "Ctrl+D", OnClick = function()
+    context:Register("DUPLICATE",{Name = "ทำซ้ำ", IconMap = Explorer.MiscIcons, Icon = "Copy", DisabledIcon = "Copy_Disabled", Shortcut = "Ctrl+D", OnClick = function()
       local clone = game.Clone
       local sList = selection.List
       local newSelection = {}
@@ -1063,7 +1063,7 @@ local function main()
       end
     end})
     
-    context:Register("DELETE",{Name = "Delete", IconMap = Explorer.MiscIcons, Icon = "Delete", DisabledIcon = "Delete_Disabled", Shortcut = "Del", OnClick = function()
+    context:Register("DELETE",{Name = "ลบ", IconMap = Explorer.MiscIcons, Icon = "Delete", DisabledIcon = "Delete_Disabled", Shortcut = "Del", OnClick = function()
       local destroy = game.Destroy
       local sList = selection.List
       for i = 1,#sList do
@@ -1072,14 +1072,14 @@ local function main()
       selection:Clear()
     end})
 
-    context:Register("RENAME",{Name = "Rename", IconMap = Explorer.MiscIcons, Icon = "Rename", DisabledIcon = "Rename_Disabled", Shortcut = "F2", OnClick = function()
+    context:Register("RENAME",{Name = "แก้ไขชื่อ", IconMap = Explorer.MiscIcons, Icon = "Rename", DisabledIcon = "Rename_Disabled", Shortcut = "F2", OnClick = function()
       local sList = selection.List
       if sList[1] then
         Explorer.SetRenamingNode(sList[1])
       end
     end})
 
-    context:Register("GROUP",{Name = "Group", IconMap = Explorer.MiscIcons, Icon = "Group", DisabledIcon = "Group_Disabled", Shortcut = "Ctrl+G", OnClick = function()
+    context:Register("GROUP",{Name = "กรุ๊ป", IconMap = Explorer.MiscIcons, Icon = "Group", DisabledIcon = "Group_Disabled", Shortcut = "Ctrl+G", OnClick = function()
       local sList = selection.List
       if #sList == 0 then return end
       
@@ -1094,7 +1094,7 @@ local function main()
       end
     end})
 
-    context:Register("UNGROUP",{Name = "Ungroup", IconMap = Explorer.MiscIcons, Icon = "Ungroup", DisabledIcon = "Ungroup_Disabled", Shortcut = "Ctrl+U", OnClick = function()
+    context:Register("UNGROUP",{Name = "ยกเลิกกรุ๊ป", IconMap = Explorer.MiscIcons, Icon = "Ungroup", DisabledIcon = "Ungroup_Disabled", Shortcut = "Ctrl+U", OnClick = function()
       local newSelection = {}
       local count = 1
       local isa = game.IsA
@@ -1131,7 +1131,7 @@ local function main()
       end
     end})
 
-    context:Register("SELECT_CHILDREN",{Name = "Select Children", IconMap = Explorer.MiscIcons, Icon = "SelectChildren", DisabledIcon = "SelectChildren_Disabled", OnClick = function()
+    context:Register("SELECT_CHILDREN",{Name = "เลือกไฟล์ Children", IconMap = Explorer.MiscIcons, Icon = "SelectChildren", DisabledIcon = "SelectChildren_Disabled", OnClick = function()
       local newSelection = {}
       local count = 1
       local sList = selection.List
@@ -1155,7 +1155,7 @@ local function main()
       end
     end})
     
-    context:Register("JUMP_TO_PARENT",{Name = "Jump to Parent", IconMap = Explorer.MiscIcons, Icon = "JumpToParent", OnClick = function()
+    context:Register("JUMP_TO_PARENT",{Name = "ไปหา Parent", IconMap = Explorer.MiscIcons, Icon = "JumpToParent", OnClick = function()
       local newSelection = {}
       local count = 1
       local sList = selection.List
@@ -1176,7 +1176,7 @@ local function main()
       end
     end})
 
-    context:Register("TELEPORT_TO",{Name = "Teleport To", IconMap = Explorer.MiscIcons, Icon = "TeleportTo", OnClick = function()
+    context:Register("TELEPORT_TO",{Name = "เทเลพอร์ตไปหา", IconMap = Explorer.MiscIcons, Icon = "TeleportTo", OnClick = function()
       local sList = selection.List
       local plrRP = plr.Character and plr.Character:FindFirstChild("HumanoidRootPart")
       
@@ -1218,7 +1218,7 @@ local function main()
     end})
     
     local OldAnimation
-    context:Register("PLAY_TWEEN",{Name = "Play Tween", IconMap = Explorer.MiscIcons, Icon = "Play", OnClick = function()
+    context:Register("PLAY_TWEEN",{Name = "เล่น Tween", IconMap = Explorer.MiscIcons, Icon = "Play", OnClick = function()
       local sList = selection.List
       
       for i = 1, #sList do
@@ -1230,7 +1230,7 @@ local function main()
     end})
     
     local OldAnimation
-    context:Register("LOAD_ANIMATION",{Name = "Load Animation", IconMap = Explorer.MiscIcons, Icon = "Play", OnClick = function()
+    context:Register("LOAD_ANIMATION",{Name = "เล่นอนิเมชั่น", IconMap = Explorer.MiscIcons, Icon = "Play", OnClick = function()
       local sList = selection.List
       
       local Humanoid = plr.Character and plr.Character:FindFirstChild("Humanoid")
@@ -1249,7 +1249,7 @@ local function main()
       end
     end})
     
-    context:Register("STOP_ANIMATION",{Name = "Stop Animation", IconMap = Explorer.MiscIcons, Icon = "Pause", OnClick = function()
+    context:Register("STOP_ANIMATION",{Name = "หยุดอนิเมชั่น", IconMap = Explorer.MiscIcons, Icon = "Pause", OnClick = function()
       local sList = selection.List
       
       local Humanoid = plr.Character and plr.Character:FindFirstChild("Humanoid")
@@ -1267,7 +1267,7 @@ local function main()
       end
     end})
     
-    context:Register("EXPAND_ALL",{Name = "Expand All", OnClick = function()
+    context:Register("EXPAND_ALL",{Name = "ขยายทั้งหมด", OnClick = function()
       local sList = selection.List
 
       local function expand(node)
@@ -1286,7 +1286,7 @@ local function main()
       Explorer.ForceUpdate()
     end})
 
-    context:Register("COLLAPSE_ALL",{Name = "Collapse All", OnClick = function()
+    context:Register("COLLAPSE_ALL",{Name = "ยุบทั้งหมด", OnClick = function()
       local sList = selection.List
       
       local function expand(node)
@@ -1305,7 +1305,7 @@ local function main()
       Explorer.ForceUpdate()
     end})
 
-    context:Register("CLEAR_SEARCH_AND_JUMP_TO",{Name = "Clear Search and Jump to", OnClick = function()
+    context:Register("CLEAR_SEARCH_AND_JUMP_TO",{Name = "ลบการค้นหาและไปที่ไฟล์นี้", OnClick = function()
       local newSelection = {}
       local count = 1
       local sList = selection.List
@@ -1328,7 +1328,7 @@ local function main()
       return str
     end
       
-    context:Register("COPY_PATH",{Name = "Copy Path", IconMap = Explorer.ClassIcons, Icon = 50, OnClick = function()
+    context:Register("COPY_PATH",{Name = "คัดลอกเส้นทางไฟล์", IconMap = Explorer.ClassIcons, Icon = 50, OnClick = function()
       local sList = selection.List
       if #sList == 1 then
         env.setclipboard(clth(Explorer.GetInstancePath(sList[1].Obj)))
@@ -1347,33 +1347,33 @@ local function main()
       end
     end})
 
-    context:Register("INSERT_OBJECT",{Name = "Insert Object", IconMap = Explorer.MiscIcons, Icon = "InsertObject", OnClick = function()
+    context:Register("INSERT_OBJECT",{Name = "เพิ่ม Object", IconMap = Explorer.MiscIcons, Icon = "InsertObject", OnClick = function()
       local mouse = Main.Mouse
       local x,y = Explorer.LastRightClickX or mouse.X, Explorer.LastRightClickY or mouse.Y
       Explorer.InsertObjectContext:Show(x,y)
     end})
 
-    context:Register("CALL_FUNCTION",{Name = "Call Function", IconMap = Explorer.ClassIcons, Icon = 66, OnClick = function()
+    context:Register("CALL_FUNCTION",{Name = "เรียกฟังก์ชั่น", IconMap = Explorer.ClassIcons, Icon = 66, OnClick = function()
       
     end})
 
-    context:Register("GET_REFERENCES",{Name = "Get Lua References", IconMap = Explorer.ClassIcons, Icon = 34, OnClick = function()
+    context:Register("GET_REFERENCES",{Name = "ดู Lua References", IconMap = Explorer.ClassIcons, Icon = 34, OnClick = function()
       
     end})
     
-    context:Register("SAVE_INST",{Name = "Save to File", IconMap = Explorer.MiscIcons, Icon = "Save", OnClick = function()
+    context:Register("SAVE_INST",{Name = "เซฟไปที่ไฟล์", IconMap = Explorer.MiscIcons, Icon = "Save", OnClick = function()
       
     end})
     
-    --[[context:Register("VIEW_CONNECTIONS",{Name = "View Connections", OnClick = function()
+    --[[context:Register("VIEW_CONNECTIONS",{Name = "ดู Connections", OnClick = function()
       
     end})]]
     
-    context:Register("VIEW_API",{Name = "View API Page", IconMap = Explorer.MiscIcons, Icon = "Reference", OnClick = function()
+    context:Register("VIEW_API",{Name = "ดูหน้า API", IconMap = Explorer.MiscIcons, Icon = "Reference", OnClick = function()
       
     end})
     
-    context:Register("VIEW_OBJECT",{Name = "View Object (Right click to reset)", IconMap = Explorer.ClassIcons, Icon = 5, OnClick = function()
+    context:Register("VIEW_OBJECT",{Name = "ดู Object (คลิ๊กขวาเพื่อรีเซ็ต)", IconMap = Explorer.ClassIcons, Icon = 5, OnClick = function()
       local sList = selection.List
       local isa = game.IsA
 
@@ -1389,30 +1389,30 @@ local function main()
       workspace.CurrentCamera.CameraSubject = plr.Character
     end})
     
-    context:Register("FIRE_TOUCHTRANSMITTER",{Name = "Fire TouchTransmitter", IconMap = Explorer.ClassIcons, Icon = 37, OnClick = function()
+    context:Register("FIRE_TOUCHTRANSMITTER",{Name = "ยิง TouchTransmitter", IconMap = Explorer.ClassIcons, Icon = 37, OnClick = function()
       local hrp = plr.Character and plr.Character:FindFirstChild("HumanoidRootPart")
       if not hrp then return end
       for _, v in ipairs(selection.List) do if v.Obj and v.Obj:IsA("TouchTransmitter") then firetouchinterest(hrp, v.Obj.Parent, 0) end end
     end})
     
-    context:Register("FIRE_CLICKDETECTOR",{Name = "Fire ClickDetector", IconMap = Explorer.ClassIcons, Icon = 41, OnClick = function()
+    context:Register("FIRE_CLICKDETECTOR",{Name = "ยิง ClickDetector", IconMap = Explorer.ClassIcons, Icon = 41, OnClick = function()
       local hrp = plr.Character and plr.Character:FindFirstChild("HumanoidRootPart")
       if not hrp then return end
       for _, v in ipairs(selection.List) do if v.Obj and v.Obj:IsA("ClickDetector") then fireclickdetector(v.Obj) end end
     end})
 
-    context:Register("FIRE_PROXIMITYPROMPT",{Name = "Fire ProximityPrompt", IconMap = Explorer.ClassIcons, Icon = 124, OnClick = function()
+    context:Register("FIRE_PROXIMITYPROMPT",{Name = "ยิง ProximityPrompt", IconMap = Explorer.ClassIcons, Icon = 124, OnClick = function()
       local hrp = plr.Character and plr.Character:FindFirstChild("HumanoidRootPart")
       if not hrp then return end
       for _, v in ipairs(selection.List) do if v.Obj and v.Obj:IsA("ProximityPrompt") then fireproximityprompt(v.Obj) end end
     end})
 
-    context:Register("VIEW_SCRIPT",{Name = "View Script", IconMap = Explorer.MiscIcons, Icon = "ViewScript", OnClick = function()
+    context:Register("VIEW_SCRIPT",{Name = "ดูสคริปต์", IconMap = Explorer.MiscIcons, Icon = "ViewScript", OnClick = function()
       local scr = selection.List[1] and selection.List[1].Obj
       if scr then ScriptViewer.ViewScript(scr) end
     end})
     
-    context:Register("SAVE_BYTECODE",{Name = "Save Script Bytecode", IconMap = Explorer.MiscIcons, Icon = "Save", OnClick = function()
+    context:Register("SAVE_BYTECODE",{Name = "เซฟ ScriptBytecode ลงในไฟล์", IconMap = Explorer.MiscIcons, Icon = "Save", OnClick = function()
       for _,v in next, selection.List do
         if v.Obj:IsA("LuaSourceContainer") then
           local success, bytecode = pcall(getscriptbytecode, scr)
@@ -1425,7 +1425,7 @@ local function main()
       end
     end})
     
-    context:Register("SELECT_CHARACTER",{Name = "Select Character", IconMap = Explorer.ClassIcons, Icon = 9, OnClick = function()
+    context:Register("SELECT_CHARACTER",{Name = "เลือก Character", IconMap = Explorer.ClassIcons, Icon = 9, OnClick = function()
       local newSelection = {}
       local count = 1
       local sList = selection.List
@@ -1447,7 +1447,7 @@ local function main()
       end
     end})
     
-    context:Register("VIEW_PLAYER",{Name = "View Player", IconMap = Explorer.ClassIcons, Icon = 5, OnClick = function()
+    context:Register("VIEW_PLAYER",{Name = "ดูผู้เล่น", IconMap = Explorer.ClassIcons, Icon = 5, OnClick = function()
       local newSelection = {}
       local count = 1
       local sList = selection.List
@@ -1463,11 +1463,11 @@ local function main()
       end
     end})
     
-    context:Register("SELECT_LOCAL_PLAYER",{Name = "Select Local Player", IconMap = Explorer.ClassIcons, Icon = 9, OnClick = function()
+    context:Register("SELECT_LOCAL_PLAYER",{Name = "เลือก Local Player", IconMap = Explorer.ClassIcons, Icon = 9, OnClick = function()
       pcall(function() if nodes[plr] then selection:Set(nodes[plr]) Explorer.ViewNode(nodes[plr]) end end)
     end})
     
-    context:Register("SELECT_ALL_CHARACTERS",{Name = "Select All Characters", IconMap = Explorer.ClassIcons, Icon = 2, OnClick = function()
+    context:Register("SELECT_ALL_CHARACTERS",{Name = "เลือก Character ทั้งหมด", IconMap = Explorer.ClassIcons, Icon = 2, OnClick = function()
       local newSelection = {}
       local sList = selection.List
       
@@ -1486,11 +1486,11 @@ local function main()
       end
     end})
     
-    context:Register("REFRESH_NIL",{Name = "Refresh Nil Instances", OnClick = function()
+    context:Register("REFRESH_NIL",{Name = "รีเฟรช Nil Instances", OnClick = function()
       Explorer.RefreshNilInstances()
     end})
     
-    context:Register("HIDE_NIL",{Name = "Hide Nil Instances", OnClick = function()
+    context:Register("HIDE_NIL",{Name = "ซ่อน Nil Instances", OnClick = function()
       Explorer.HideNilInstances()
     end})
     
@@ -2152,7 +2152,7 @@ local function main()
       {1,"Folder",{Name="ExplorerItems",}},
       {2,"Frame",{BackgroundColor3=Color3.new(0.20392157137394,0.20392157137394,0.20392157137394),BorderSizePixel=0,Name="ToolBar",Parent={1},Size=UDim2.new(1,0,0,22),}},
       {3,"Frame",{BackgroundColor3=Color3.new(0.14901961386204,0.14901961386204,0.14901961386204),BorderColor3=Color3.new(0.1176470592618,0.1176470592618,0.1176470592618),BorderSizePixel=0,Name="SearchFrame",Parent={2},Position=UDim2.new(0,3,0,1),Size=UDim2.new(1,-6,0,18),}},
-      {4,"TextBox",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,ClearTextOnFocus=false,Font=3,Name="SearchBox",Parent={3},PlaceholderColor3=Color3.new(0.39215689897537,0.39215689897537,0.39215689897537),PlaceholderText="Search",Position=UDim2.new(0,4,0,0),Size=UDim2.new(1,-24,0,18),Text="",TextColor3=Color3.new(1,1,1),TextSize=14,TextXAlignment=0,}},
+      {4,"TextBox",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,ClearTextOnFocus=false,Font=3,Name="SearchBox",Parent={3},PlaceholderColor3=Color3.new(0.39215689897537,0.39215689897537,0.39215689897537),PlaceholderText="ค้นหาไฟล์ที่ต้องการ",Position=UDim2.new(0,4,0,0),Size=UDim2.new(1,-24,0,18),Text="",TextColor3=Color3.new(1,1,1),TextSize=14,TextXAlignment=0,}},
       {5,"UICorner",{CornerRadius=UDim.new(0,2),Parent={3},}},
       {6,"UIStroke",{Thickness=1.4,Parent={3},Color=Color3.fromRGB(42,42,42)}},
       {7,"TextButton",{AutoButtonColor=false,BackgroundColor3=Color3.new(0.12549020349979,0.12549020349979,0.12549020349979),BackgroundTransparency=1,BorderSizePixel=0,Font=3,Name="Reset",Parent={3},Position=UDim2.new(1,-17,0,1),Size=UDim2.new(0,16,0,16),Text="",TextColor3=Color3.new(1,1,1),TextSize=14,}},
@@ -2188,7 +2188,7 @@ local function main()
 
     local window = Lib.Window.new()
     Explorer.Window = window
-    window:SetTitle("Explorer")
+    window:SetTitle("สำรวจไฟล์")
     window.GuiElems.Line.Position = UDim2.new(0,0,0,22)
 
     Explorer.InitEntryTemplate()
@@ -3312,7 +3312,7 @@ local function main()
     end
 
     Properties.EditingAttribute = editAttr
-    win:SetTitle(editAttr and "Edit Attribute "..editAttr.AttributeName or "Add Attribute")
+    win:SetTitle(editAttr and "Edit Attribute "..editAttr.AttributeName or "เพิ่ม Attribute")
     win.Elements.Error.Text = ""
     win.Elements.NameBox:SetText("")
     win.Elements.SaveButton:SetDisabled(true)
@@ -4112,7 +4112,7 @@ local function main()
       {1,"Folder",{Name="Items",}},
       {2,"Frame",{BackgroundColor3=Color3.new(0.20392157137394,0.20392157137394,0.20392157137394),BorderSizePixel=0,Name="ToolBar",Parent={1},Size=UDim2.new(1,0,0,22),}},
       {3,"Frame",{BackgroundColor3=Color3.new(0.14901961386204,0.14901961386204,0.14901961386204),BorderColor3=Color3.new(0.1176470592618,0.1176470592618,0.1176470592618),BorderSizePixel=0,Name="SearchFrame",Parent={2},Position=UDim2.new(0,3,0,1),Size=UDim2.new(1,-6,0,18),}},
-      {4,"TextBox",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,ClearTextOnFocus=false,Font=3,Name="SearchBox",Parent={3},PlaceholderColor3=Color3.new(0.39215689897537,0.39215689897537,0.39215689897537),PlaceholderText="Search",Position=UDim2.new(0,4,0,0),Size=UDim2.new(1,-24,0,18),Text="",TextColor3=Color3.new(1,1,1),TextSize=14,TextXAlignment=0,}},
+      {4,"TextBox",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,ClearTextOnFocus=false,Font=3,Name="SearchBox",Parent={3},PlaceholderColor3=Color3.new(0.39215689897537,0.39215689897537,0.39215689897537),PlaceholderText="ค้นหาข้อมูลไฟล์",Position=UDim2.new(0,4,0,0),Size=UDim2.new(1,-24,0,18),Text="",TextColor3=Color3.new(1,1,1),TextSize=14,TextXAlignment=0,}},
       {5,"UICorner",{CornerRadius=UDim.new(0,2),Parent={3},}},
       {6,"UIStroke",{Thickness=1.4,Parent={3},Color=Color3.fromRGB(42,42,42)}},
       {7,"TextButton",{AutoButtonColor=false,BackgroundColor3=Color3.new(0.12549020349979,0.12549020349979,0.12549020349979),BackgroundTransparency=1,BorderSizePixel=0,Font=3,Name="Reset",Parent={3},Position=UDim2.new(1,-17,0,1),Size=UDim2.new(0,16,0,16),Text="",TextColor3=Color3.new(1,1,1),TextSize=14,}},
@@ -4135,7 +4135,7 @@ local function main()
     -- Init window
     window = Lib.Window.new()
     Properties.Window = window
-    window:SetTitle("Properties")
+    window:SetTitle("ข้อมูลไฟล์")
 
     toolBar = guiItems.ToolBar
     propsFrame = guiItems.List
@@ -11264,67 +11264,67 @@ Main = (function()
     Main.MainGuiOpen = val
     
     if not Main.MainGui.OpenButton:FindFirstChild("Icon") then
-        local icon = Instance.new("ImageLabel")
-        icon.Name = "Icon"
-        icon.Size = UDim2.new(0, 24, 0, 24)
-        icon.Position = UDim2.new(0.5, 0, 0.5, 0)
-        icon.AnchorPoint = Vector2.new(0.5, 0.5)
-        icon.BackgroundTransparency = 1
-        icon.Image = "rbxassetid://74835846528618"
-        icon.Parent = Main.MainGui.OpenButton
-        Main.MainGui.OpenButton.Text = ""
-    end
-    
-    local icon = Main.MainGui.OpenButton.Icon
-    icon.ImageTransparency = val and 0 or 0.2
-    
-    if val then Main.MainGui.OpenButton.MainFrame.Visible = true end
-    Main.MainGui.OpenButton.MainFrame:TweenSize(val and UDim2.new(0,224,0,200) or UDim2.new(0,0,0,0),Enum.EasingDirection.Out,Enum.EasingStyle.Quad,0.2,true)
-    service.TweenService:Create(Main.MainGui.OpenButton,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{BackgroundTransparency = val and 0 or (Lib.CheckMouseInGui(Main.MainGui.OpenButton) and 0 or 0.2)}):Play()
-    
-    if Main.MainGuiMouseEvent then Main.MainGuiMouseEvent:Disconnect() end
-    
-    if not val then
-        local startTime = tick()
-        Main.MainGuiCloseTime = startTime
-        coroutine.wrap(function()
-            Lib.FastWait(0.2)
-            if not Main.MainGuiOpen and startTime == Main.MainGuiCloseTime then Main.MainGui.OpenButton.MainFrame.Visible = false end
-        end)()
-    else
-        Main.MainGuiMouseEvent = service.UserInputService.InputBegan:Connect(function(input)
-            if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) and not Lib.CheckMouseInGui(Main.MainGui.OpenButton) and not Lib.CheckMouseInGui(Main.MainGui.OpenButton.MainFrame) then
-                Main.SetMainGuiOpen(false)
-            end
-        end)
-    end
-end
+      local icon = Instance.new("ImageLabel")
+      icon.Name = "Icon"
+      icon.Size = UDim2.new(0, 24, 0, 24)
+      icon.Position = UDim2.new(0.5, 0, 0.5, 0)
+      icon.AnchorPoint = Vector2.new(0.5, 0.5)
+      icon.BackgroundTransparency = 1
+      icon.Image = "rbxassetid://74835846528618"
+      icon.Parent = Main.MainGui.OpenButton
+      Main.MainGui.OpenButton.Text = ""
+  end
   
-  Main.CreateMainGui = function()
-    local gui = create({
-        {1,"ScreenGui",{IgnoreGuiInset=true,Name="MainMenu",}},
-        {2,"TextButton",{AnchorPoint=Vector2.new(0.5,0),AutoButtonColor=false,BackgroundColor3=Color3.new(0.17647059261799,0.17647059261799,0.17647059261799),BorderSizePixel=0,Font=4,Name="OpenButton",Parent={1},Position=UDim2.new(0.5,0,0,2),Size=UDim2.new(0,32,0,32),Text="",TextColor3=Color3.new(1,1,1),TextSize=16,TextTransparency=0.20000000298023,}},
-        {3,"UICorner",{CornerRadius=UDim.new(0,4),Parent={2},}},
-        {4,"ImageLabel",{BackgroundTransparency=1,Image="rbxassetid://74835846528618",Name="Icon",Parent={2},Position=UDim2.new(0.5,0,0.5,0),Size=UDim2.new(0,24,0,24),AnchorPoint=Vector2.new(0.5,0.5),ImageTransparency=0.20000000298023,}},
-        {5,"Frame",{AnchorPoint=Vector2.new(0.5,0),BackgroundColor3=Color3.new(0.17647059261799,0.17647059261799,0.17647059261799),ClipsDescendants=true,Name="MainFrame",Parent={2},Position=UDim2.new(0.5,0,1,-4),Size=UDim2.new(0,224,0,200),}},
-        {6,"UICorner",{CornerRadius=UDim.new(0,4),Parent={5},}},
-        {7,"Frame",{BackgroundColor3=Color3.new(0.20392157137394,0.20392157137394,0.20392157137394),Name="BottomFrame",Parent={5},Position=UDim2.new(0,0,1,-24),Size=UDim2.new(1,0,0,24),}},
-        {8,"UICorner",{CornerRadius=UDim.new(0,4),Parent={7},}},
-        {9,"Frame",{BackgroundColor3=Color3.new(0.20392157137394,0.20392157137394,0.20392157137394),BorderSizePixel=0,Name="CoverFrame",Parent={7},Size=UDim2.new(1,0,0,4),}},
-        {10,"Frame",{BackgroundColor3=Color3.new(0.1294117718935,0.1294117718935,0.1294117718935),BorderSizePixel=0,Name="Line",Parent={9},Position=UDim2.new(0,0,0,-1),Size=UDim2.new(1,0,0,1),}},
-        {11,"TextButton",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Font=3,Name="Settings",Parent={7},Position=UDim2.new(1,-48,0,0),Size=UDim2.new(0,24,1,0),Text="",TextColor3=Color3.new(1,1,1),TextSize=14,}},
-        {12,"ImageLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Image="rbxassetid://6578871732",ImageTransparency=0.20000000298023,Name="Icon",Parent={11},Position=UDim2.new(0,4,0,4),Size=UDim2.new(0,16,0,16),}},
-        {13,"TextButton",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Font=3,Name="Information",Parent={7},Position=UDim2.new(1,-24,0,0),Size=UDim2.new(0,24,1,0),Text="",TextColor3=Color3.new(1,1,1),TextSize=14,}},
-        {14,"ImageLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Image="rbxassetid://6578933307",ImageTransparency=0.20000000298023,Name="Icon",Parent={13},Position=UDim2.new(0,4,0,4),Size=UDim2.new(0,16,0,16),}},
-        {15,"ScrollingFrame",{Active=true,AnchorPoint=Vector2.new(0.5,0),BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,BorderColor3=Color3.new(0.1294117718935,0.1294117718935,0.1294117718935),BorderSizePixel=0,Name="AppsFrame",Parent={5},Position=UDim2.new(0.5,0,0,0),ScrollBarImageColor3=Color3.new(0,0,0),ScrollBarThickness=4,Size=UDim2.new(0,222,1,-25),}},
-        {16,"Frame",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Name="Container",Parent={15},Position=UDim2.new(0,7,0,8),Size=UDim2.new(1,-14,0,2),}},
-        {17,"UIGridLayout",{CellSize=UDim2.new(0,66,0,74),Parent={16},SortOrder=2,}},
-        {18,"Frame",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Name="App",Parent={1},Size=UDim2.new(0,100,0,100),Visible=false,}},
-        {19,"TextButton",{AutoButtonColor=false,BackgroundColor3=Color3.new(0.2352941185236,0.2352941185236,0.2352941185236),BorderSizePixel=0,Font=3,Name="Main",Parent={18},Size=UDim2.new(1,0,0,60),Text="",TextColor3=Color3.new(0,0,0),TextSize=14,}},
-        {20,"ImageLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Image="rbxassetid://6579106223",ImageRectSize=Vector2.new(32,32),Name="Icon",Parent={19},Position=UDim2.new(0.5,-16,0,4),ScaleType=4,Size=UDim2.new(0,32,0,32),}},
-        {21,"TextLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,BorderSizePixel=0,Font=3,Name="AppName",Parent={19},Position=UDim2.new(0,2,0,38),Size=UDim2.new(1,-4,1,-40),Text="Explorer",TextColor3=Color3.new(1,1,1),TextSize=14,TextTransparency=0.10000000149012,TextTruncate=1,TextWrapped=true,TextYAlignment=0,}},
-        {22,"Frame",{BackgroundColor3=Color3.new(0,0.66666668653488,1),BorderSizePixel=0,Name="Highlight",Parent={19},Position=UDim2.new(0,0,1,-2),Size=UDim2.new(1,0,0,2),}},
-      })
+  local icon = Main.MainGui.OpenButton.Icon
+  icon.ImageTransparency = val and 0 or 0.2
+  
+  if val then Main.MainGui.OpenButton.MainFrame.Visible = true end
+  Main.MainGui.OpenButton.MainFrame:TweenSize(val and UDim2.new(0,224,0,200) or UDim2.new(0,0,0,0),Enum.EasingDirection.Out,Enum.EasingStyle.Quad,0.2,true)
+  service.TweenService:Create(Main.MainGui.OpenButton,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{BackgroundTransparency = val and 0 or (Lib.CheckMouseInGui(Main.MainGui.OpenButton) and 0 or 0.2)}):Play()
+  
+  if Main.MainGuiMouseEvent then Main.MainGuiMouseEvent:Disconnect() end
+  
+  if not val then
+      local startTime = tick()
+      Main.MainGuiCloseTime = startTime
+      coroutine.wrap(function()
+          Lib.FastWait(0.2)
+          if not Main.MainGuiOpen and startTime == Main.MainGuiCloseTime then Main.MainGui.OpenButton.MainFrame.Visible = false end
+      end)()
+  else
+      Main.MainGuiMouseEvent = service.UserInputService.InputBegan:Connect(function(input)
+          if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) and not Lib.CheckMouseInGui(Main.MainGui.OpenButton) and not Lib.CheckMouseInGui(Main.MainGui.OpenButton.MainFrame) then
+              Main.SetMainGuiOpen(false)
+          end
+      end)
+  end
+end
+
+Main.CreateMainGui = function()
+  local gui = create({
+      {1,"ScreenGui",{IgnoreGuiInset=true,Name="MainMenu",}},
+      {2,"TextButton",{AnchorPoint=Vector2.new(0.5,0),AutoButtonColor=false,BackgroundColor3=Color3.new(0.17647059261799,0.17647059261799,0.17647059261799),BorderSizePixel=0,Font=4,Name="OpenButton",Parent={1},Position=UDim2.new(0.5,0,0,2),Size=UDim2.new(0,32,0,32),Text="",TextColor3=Color3.new(1,1,1),TextSize=16,TextTransparency=0.20000000298023,}},
+      {3,"UICorner",{CornerRadius=UDim.new(0,4),Parent={2},}},
+      {4,"ImageLabel",{BackgroundTransparency=1,Image="rbxassetid://74835846528618",Name="Icon",Parent={2},Position=UDim2.new(0.5,0,0.5,0),Size=UDim2.new(0,24,0,24),AnchorPoint=Vector2.new(0.5,0.5),ImageTransparency=0.20000000298023,}},
+      {5,"Frame",{AnchorPoint=Vector2.new(0.5,0),BackgroundColor3=Color3.new(0.17647059261799,0.17647059261799,0.17647059261799),ClipsDescendants=true,Name="MainFrame",Parent={2},Position=UDim2.new(0.5,0,1,-4),Size=UDim2.new(0,224,0,200),}},
+      {6,"UICorner",{CornerRadius=UDim.new(0,4),Parent={5},}},
+      {7,"Frame",{BackgroundColor3=Color3.new(0.20392157137394,0.20392157137394,0.20392157137394),Name="BottomFrame",Parent={5},Position=UDim2.new(0,0,1,-24),Size=UDim2.new(1,0,0,24),}},
+      {8,"UICorner",{CornerRadius=UDim.new(0,4),Parent={7},}},
+      {9,"Frame",{BackgroundColor3=Color3.new(0.20392157137394,0.20392157137394,0.20392157137394),BorderSizePixel=0,Name="CoverFrame",Parent={7},Size=UDim2.new(1,0,0,4),}},
+      {10,"Frame",{BackgroundColor3=Color3.new(0.1294117718935,0.1294117718935,0.1294117718935),BorderSizePixel=0,Name="Line",Parent={9},Position=UDim2.new(0,0,0,-1),Size=UDim2.new(1,0,0,1),}},
+      {11,"TextButton",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Font=3,Name="Settings",Parent={7},Position=UDim2.new(1,-48,0,0),Size=UDim2.new(0,24,1,0),Text="",TextColor3=Color3.new(1,1,1),TextSize=14,}},
+      {12,"ImageLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Image="rbxassetid://6578871732",ImageTransparency=0.20000000298023,Name="Icon",Parent={11},Position=UDim2.new(0,4,0,4),Size=UDim2.new(0,16,0,16),}},
+      {13,"TextButton",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Font=3,Name="Information",Parent={7},Position=UDim2.new(1,-24,0,0),Size=UDim2.new(0,24,1,0),Text="",TextColor3=Color3.new(1,1,1),TextSize=14,}},
+      {14,"ImageLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Image="rbxassetid://6578933307",ImageTransparency=0.20000000298023,Name="Icon",Parent={13},Position=UDim2.new(0,4,0,4),Size=UDim2.new(0,16,0,16),}},
+      {15,"ScrollingFrame",{Active=true,AnchorPoint=Vector2.new(0.5,0),BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,BorderColor3=Color3.new(0.1294117718935,0.1294117718935,0.1294117718935),BorderSizePixel=0,Name="AppsFrame",Parent={5},Position=UDim2.new(0.5,0,0,0),ScrollBarImageColor3=Color3.new(0,0,0),ScrollBarThickness=4,Size=UDim2.new(0,222,1,-25),}},
+      {16,"Frame",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Name="Container",Parent={15},Position=UDim2.new(0,7,0,8),Size=UDim2.new(1,-14,0,2),}},
+      {17,"UIGridLayout",{CellSize=UDim2.new(0,66,0,74),Parent={16},SortOrder=2,}},
+      {18,"Frame",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Name="App",Parent={1},Size=UDim2.new(0,100,0,100),Visible=false,}},
+      {19,"TextButton",{AutoButtonColor=false,BackgroundColor3=Color3.new(0.2352941185236,0.2352941185236,0.2352941185236),BorderSizePixel=0,Font=3,Name="Main",Parent={18},Size=UDim2.new(1,0,0,60),Text="",TextColor3=Color3.new(0,0,0),TextSize=14,}},
+      {20,"ImageLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Image="rbxassetid://6579106223",ImageRectSize=Vector2.new(32,32),Name="Icon",Parent={19},Position=UDim2.new(0.5,-16,0,4),ScaleType=4,Size=UDim2.new(0,32,0,32),}},
+      {21,"TextLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,BorderSizePixel=0,Font=3,Name="AppName",Parent={19},Position=UDim2.new(0,2,0,38),Size=UDim2.new(1,-4,1,-40),Text="Explorer",TextColor3=Color3.new(1,1,1),TextSize=14,TextTransparency=0.10000000149012,TextTruncate=1,TextWrapped=true,TextYAlignment=0,}},
+      {22,"Frame",{BackgroundColor3=Color3.new(0,0.66666668653488,1),BorderSizePixel=0,Name="Highlight",Parent={19},Position=UDim2.new(0,0,1,-2),Size=UDim2.new(1,0,0,2),}},
+    })
     Main.MainGui = gui
     Main.AppsFrame = gui.OpenButton.MainFrame.AppsFrame
     Main.AppsContainer = Main.AppsFrame.Container
@@ -11353,14 +11353,14 @@ end
     end)
     
     -- Create Main Apps
-    Main.CreateApp({Name = "Explorer", IconMap = Main.LargeIcons, Icon = "Explorer", Open = true, Window = Explorer.Window})
+    Main.CreateApp({Name = "สำรวจไฟล์", IconMap = Main.LargeIcons, Icon = "Explorer", Open = true, Window = Explorer.Window})
     
-    Main.CreateApp({Name = "Properties", IconMap = Main.LargeIcons, Icon = "Properties", Open = true, Window = Properties.Window})
+    Main.CreateApp({Name = "ดูข้อมูลไฟล์", IconMap = Main.LargeIcons, Icon = "Properties", Open = true, Window = Properties.Window})
     
-    Main.CreateApp({Name = "Script Viewer", IconMap = Main.LargeIcons, Icon = "Script_Viewer", Window = ScriptViewer.Window})
+    Main.CreateApp({Name = "อ่านสคริปต์", IconMap = Main.LargeIcons, Icon = "Script_Viewer", Window = ScriptViewer.Window})
     
     local cptsOnMouseClick = nil
-    Main.CreateApp({Name = "Click part to select", IconMap = Main.LargeIcons, Icon = 6, OnClick = function(callback)
+    Main.CreateApp({Name = "คลิ๊กเพื่อเลือก", IconMap = Main.LargeIcons, Icon = 6, OnClick = function(callback)
       if callback then
         local mouse = Main.Mouse
         cptsOnMouseClick = mouse.Button1Down:Connect(function()
@@ -11376,7 +11376,7 @@ end
     end})
     
     local cptsOnMouseClick1 = nil
-    Main.CreateApp({Name = "Click the GUI to select", IconMap = Main.LargeIcons, Icon = 6, OnClick = function(callback)
+    Main.CreateApp({Name = "คลิ๊ก GUI เพื่อเลือก", IconMap = Main.LargeIcons, Icon = 6, OnClick = function(callback)
       if callback then
         local mouse = Main.Mouse
         local player = service.Players.LocalPlayer
@@ -11477,7 +11477,7 @@ end
     })
     
     -- Fetch version if needed
-    intro.SetProgress("Fetching Roblox Version",0.2)
+    intro.SetProgress("รอแปปกำลังโหลดเวอร์ชั่น roblox",0.2)
     if Main.Elevated then
       local fileVer = Lib.ReadFile("dex/deps_version.dat")
       Main.ClientVersion = Version()
@@ -11491,10 +11491,10 @@ end
     end
     
     -- Fetch external deps
-    intro.SetProgress("Fetching API",0.35)
+    intro.SetProgress("โหลด API แปปนึง",0.35)
     API = Main.FetchAPI()
     Lib.FastWait()
-    intro.SetProgress("Fetching RMD",0.5)
+    intro.SetProgress("โหลด RMD แปปนึง",0.5)
     RMD = Main.FetchRMD()
     Lib.FastWait()
     
@@ -11506,20 +11506,20 @@ end
     end
     
     -- Load other modules
-    intro.SetProgress("Loading Modules",0.75)
+    intro.SetProgress("กำลังโหลด Modules",0.75)
     Main.AppControls.Lib.InitDeps(Main.GetInitDeps()) -- Missing deps now available
     Main.LoadModules()
     Lib.FastWait()
     
     -- Init other modules
-    intro.SetProgress("Initializing Modules",0.9)
+    intro.SetProgress("กำลังเตรียม Modules",0.9)
     Explorer.Init()
     Properties.Init()
     ScriptViewer.Init()
     Lib.FastWait()
     
     -- Done
-    intro.SetProgress("Complete",1)
+    intro.SetProgress("เสร็จละไอสัส",1)
     coroutine.wrap(function()
       Lib.FastWait(1.25)
       intro.Close()
