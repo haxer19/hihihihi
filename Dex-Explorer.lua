@@ -4134,7 +4134,7 @@ local function main()
     -- Init window
     window = Lib.Window.new()
     Properties.Window = window
-    window:SetTitle("ข้อมูลไฟล์")
+    window:SetTitle("Properties")
 
     toolBar = guiItems.ToolBar
     propsFrame = guiItems.List
