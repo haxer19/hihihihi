@@ -42,6 +42,8 @@ WindUI:SetTheme("NeoCyber")
 
 local Configs = {
     Spamchat = false,
+    S_Stats = "",
+    E_Stats = false,
     TextChat = "",
     selectedMode_AutoChest = "Teleport", 
     isFeatureEnabled = false, 
@@ -59,6 +61,27 @@ local Tabs = {
 }
 
 Window:SelectTab(1)
+Tabs.Main:Section({ Title = "Stats", TextXAlignment = "Center" })
+Tabs.Main:Dropdown({
+    Title = "Select",
+    Values = { "Melee", "Sword", "Defense", "DevilFruit", "Special" },
+    Value = "",
+    Callback = function(option)
+        Configs.S_Stats = option
+    end
+})
+Tabs.Main:Toggle({
+    Title = "Enable Feature",
+    Default = false,
+    Callback = function(state)
+        Configs.E_Stats = state
+        while Configs.E_Stats do
+            game:GetService("ReplicatedStorage"):WaitForChild("StatSystem"):WaitForChild("Points"):FireServer(Configs.S_Stats)
+            wait(0.5)
+        end
+    end
+})
+
 Tabs.Main:Section({ Title = "Auto Chest", TextXAlignment = "Center" })
 local noclipConnection
 local activeTween
@@ -147,7 +170,7 @@ Tabs.Main:Dropdown({
 
 Tabs.Main:Toggle({
     Title = "Enable Feature",
-    Default = true,
+    Default = false,
     Callback = function(state)
         Configs.isFeatureEnabled_AutoChest = state
         if activeTween then
