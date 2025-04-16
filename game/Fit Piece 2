@@ -70,13 +70,18 @@ Tabs.Main:Dropdown({
         Configs.S_Stats = option
     end
 })
+
 Tabs.Main:Toggle({
     Title = "Enable Feature",
     Default = false,
     Callback = function(state)
         Configs.E_Stats = state
         while Configs.E_Stats do
-            game:GetService("ReplicatedStorage"):WaitForChild("StatSystem"):WaitForChild("Points"):FireServer(Configs.S_Stats)
+            if Configs.S_Stats == "Defense" then
+                game:GetService("ReplicatedStorage"):WaitForChild("StatSystem"):WaitForChild("Points"):FireServer("MaxHealth")
+            else
+                game:GetService("ReplicatedStorage"):WaitForChild("StatSystem"):WaitForChild("Points"):FireServer(Configs.S_Stats)
+            end
             wait(0.5)
         end
     end
