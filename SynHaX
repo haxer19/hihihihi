@@ -3,7 +3,7 @@ local places = {
     [16519296344] = {tn = "Mage Battlegrounds", url = "https://raw.githubusercontent.com/haxer19/hihihihi/main/game/mage.lua" },
     [14044811032] = {tn = "Universal Battlegrounds", url = "https://raw.githubusercontent.com/haxer19/hihihihi/main/game/universal.lua" },
     [81115867445435] = {tn = "Shonen Piece", url = "https://raw.githubusercontent.com/haxer19/hihihihi/main/game/sp.lua" },
-    [76098497356508] = {tn = "Fit Piece 2", url = "https://raw.githubusercontent.com/haxer19/hihihihi/main/game/Fit Piece 2" },
+    [76098497356508] = {tn = "Fit Piece 2", url = "https://raw.githubusercontent.com/haxer19/hihihihi/main/game/Fit%20Piece%202" },
 }
 
 local function createErrorGUI(errorMessage)
