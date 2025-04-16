@@ -200,7 +200,34 @@ Tabs.Main:Toggle({
         end
     end
 })
--- workspace.Mapa.Ilhas.Model:GetChildren()[88]
+Tabs.Item:Section({ Title = "Inventory", TextXAlignment = "Center" })
+function g_Inv()
+    local n = {}
+    for _, folder in ipairs({game:GetService("Players").LocalPlayer.InventoryList, game:GetService("Players").LocalPlayer.InventoryList3, game:GetService("Players").LocalPlayer.InventoryList4}) do
+        for _, item in ipairs(folder:GetChildren()) do
+            table.insert(n, item.Name)
+        end
+    end
+    return n
+end
+
+Tabs.Item:Dropdown({
+    Title = "Select",
+    Values = g_Inv(),
+    Value = "",
+    Callback = function(option)
+        if game:GetService("Players").LocalPlayer.InventoryList:FindFirstChild(option) then
+            game:GetService("ReplicatedStorage").All.Events.Remotes2.Inventory:FireServer(option)
+        end
+        if game:GetService("Players").LocalPlayer.InventoryList3:FindFirstChild(option) then
+            game:GetService("ReplicatedStorage").All.Events.Remotes2.Inventory3:FireServer(option)
+        end
+        if game:GetService("Players").LocalPlayer.InventoryList4:FindFirstChild(option) then
+            game:GetService("ReplicatedStorage").All.Events.Remotes2.Inventory4:FireServer(option)
+        end
+    end
+})
+
 Tabs.Item:Section({ Title = "Shop Items", TextXAlignment = "Center" })
 local CS_T = { 
     "Orb Yellow", "Sung Hair", "Orb White", "Itadori Hair", "Orb Red", "Shanks Hair", "Orb Blue", "Yuta Hair", "Goku Hair", "Hokyoku", "Cid Eye"
